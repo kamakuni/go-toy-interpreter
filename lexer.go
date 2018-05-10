@@ -1,5 +1,9 @@
 package main
 
+import (
+	"fmt"
+)
+
 type TokenType int
 
 const (
@@ -62,4 +66,12 @@ func CreateTokenStream(code string) (ts TokenStream) {
 
 func (ts *TokenStream) Tokenize() {
 	// Todo create tokenize function
+	tokens := []Token{}
+	char_count := len(ts.Code)
+	i := 0
+	for {
+		fmt.Println(tokens)
+		fmt.Println(char_count)
+		fmt.Println(i)
+	}
 }
