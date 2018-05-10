@@ -31,3 +31,35 @@ const (
 	Comment                       // '//'
 	EOF                           // End of File
 )
+
+type Span struct {
+	Lo int
+	Hi int
+}
+
+type Token struct {
+	TokenType TokenType
+	Span      Span
+}
+
+type TokenStream struct {
+	Code   string
+	Tokens []Token
+	Pos    int
+	Curr   string
+}
+
+func CreateTokenStream(code string) (ts TokenStream) {
+	ts = TokenStream{
+		Code:   code,
+		Tokens: []Token{},
+		Pos:    0,
+		Curr:   "",
+	}
+	ts.Tokenize()
+	return
+}
+
+func (ts *TokenStream) Tokenize() {
+	// Todo create tokenize function
+}
