@@ -75,3 +75,7 @@ func (ts *TokenStream) Tokenize() {
 		fmt.Println(i)
 	}
 }
+
+func (ts *TokenStream) CurrentToken() Token {
+	return ts.Tokens[ts.Pos]
+}
