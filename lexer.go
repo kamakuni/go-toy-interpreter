@@ -79,3 +79,15 @@ func (ts *TokenStream) Tokenize() {
 func (ts *TokenStream) CurrentToken() Token {
 	return ts.Tokens[ts.Pos]
 }
+
+func (ts *TokenStream) NextToken() Token {
+	ts.Pos += 1
+	for {
+		if ts.Tokens[ts.Pos].TokenType == Comment {
+			ts.Pos += 1
+		} else {
+			break
+		}
+	}
+	return ts.Tokens[ts.Pos]
+}
