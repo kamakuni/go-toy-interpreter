@@ -91,3 +91,7 @@ func (ts *TokenStream) NextToken() Token {
 	}
 	return ts.Tokens[ts.Pos]
 }
+
+func (ts *TokenStream) isKeyword(value string) bool {
+	return value == "main" || value == "number" || value == "string" || value == "bool" || value == "return"
+}
