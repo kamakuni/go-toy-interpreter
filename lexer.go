@@ -67,12 +67,10 @@ func CreateTokenStream(code string) (ts TokenStream) {
 func (ts *TokenStream) Tokenize() {
 	// Todo create tokenize function
 	tokens := []Token{}
-	char_count := len(ts.Code)
+	charCount := len(ts.Code)
 	i := 0
-	for {
-		fmt.Println(tokens)
-		fmt.Println(char_count)
-		fmt.Println(i)
+	for i < charCount {
+		
 	}
 }
 
@@ -94,4 +92,20 @@ func (ts *TokenStream) NextToken() Token {
 
 func (ts *TokenStream) isKeyword(value string) bool {
 	return value == "main" || value == "number" || value == "string" || value == "bool" || value == "return"
+}
+
+func (ts *TokenStream) unexpectedToken(c  rune, i int) {
+	var lineCount := 1
+	var column := 0
+	var isFirstLine := true
+	for currIndex := i - 1; currIndex > 0; currIndex-- {
+		fmt.Println(currIndex)
+		if nthChar(currIndex) == "\n" {
+			if isFirstLine {
+				column = i - currIndex
+				isFirstLine = false
+			}
+			lineCount++
+		}
+	}
 }
