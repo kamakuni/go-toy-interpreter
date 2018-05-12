@@ -70,7 +70,7 @@ func (ts *TokenStream) Tokenize() {
 	charCount := len(ts.Code)
 	i := 0
 	for i < charCount {
-		
+
 	}
 }
 
@@ -94,13 +94,13 @@ func (ts *TokenStream) isKeyword(value string) bool {
 	return value == "main" || value == "number" || value == "string" || value == "bool" || value == "return"
 }
 
-func (ts *TokenStream) unexpectedToken(c  rune, i int) {
-	var lineCount := 1
-	var column := 0
-	var isFirstLine := true
+func (ts *TokenStream) unexpectedToken(c rune, i int) {
+	var lineCount = 1
+	var column = 0
+	var isFirstLine = true
 	for currIndex := i - 1; currIndex > 0; currIndex-- {
 		fmt.Println(currIndex)
-		if nthChar(currIndex) == "\n" {
+		if ts.nthChar(currIndex) == "\n" {
 			if isFirstLine {
 				column = i - currIndex
 				isFirstLine = false
@@ -108,4 +108,8 @@ func (ts *TokenStream) unexpectedToken(c  rune, i int) {
 			lineCount++
 		}
 	}
+}
+
+func (ts *TokenStream) nthChar(i int) string {
+	return string([]rune(ts.Code)[i])
 }
