@@ -10,3 +10,11 @@ type Expr_ int
 const (
 	Block Expr_ = iota
 )
+
+type Constant int
+
+const (
+	String Constant = iota
+	Number
+	Bool
+)
