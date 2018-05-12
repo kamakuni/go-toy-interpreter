@@ -72,6 +72,14 @@ func (ts *TokenStream) Tokenize() {
 	for i < charCount {
 
 	}
+
+	/*
+		tokens = append(tokens, Token{
+			TokenType: EOF,
+			Span:      nil,
+		})
+	*/
+	ts.Tokens = tokens
 }
 
 func (ts *TokenStream) CurrentToken() Token {
