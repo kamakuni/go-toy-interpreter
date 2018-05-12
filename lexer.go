@@ -108,6 +108,8 @@ func (ts *TokenStream) unexpectedToken(c rune, i int) {
 			lineCount++
 		}
 	}
+	// panicでいいのか？
+	panic(column)
 }
 
 func (ts *TokenStream) nthChar(i int) string {
