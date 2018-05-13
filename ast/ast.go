@@ -1,4 +1,4 @@
-/*package main
+package ast
 
 type Expr struct {
 	Span Span
@@ -43,4 +43,3 @@ const (
 	Number
 	Bool
 )
-*/

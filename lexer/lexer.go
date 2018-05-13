@@ -1,4 +1,4 @@
-/*package main
+package lexer
 
 import (
 	"fmt"
@@ -72,14 +72,14 @@ func (ts *TokenStream) Tokenize() {
 	for i < charCount {
 
 	}
-*/
-/*
-	tokens = append(tokens, Token{
-		TokenType: EOF,
-		Span:      nil,
-	})
-*/
-/*	ts.Tokens = tokens
+
+	/*
+		tokens = append(tokens, Token{
+			TokenType: EOF,
+			Span:      nil,
+		})
+	*/
+	ts.Tokens = tokens
 }
 
 func (ts *TokenStream) CurrentToken() Token {
@@ -123,4 +123,3 @@ func (ts *TokenStream) unexpectedToken(c rune, i int) {
 func (ts *TokenStream) nthChar(i int) string {
 	return string([]rune(ts.Code)[i])
 }
-*/
