@@ -2,6 +2,7 @@ package lexer
 
 import (
 	"fmt"
+	"unicode"
 )
 
 type TokenType int
@@ -68,9 +69,13 @@ func (ts *TokenStream) Tokenize() {
 	// Todo create tokenize function
 	tokens := []Token{}
 	charCount := len(ts.Code)
-	i := 0
+	var i = 0
 	for i < charCount {
+		currentChar := ts.nthChar(i)
 
+		if unicode.IsSpace(currentChar) {
+			i++
+		}
 	}
 
 	/*
@@ -120,6 +125,6 @@ func (ts *TokenStream) unexpectedToken(c rune, i int) {
 	panic(column)
 }
 
-func (ts *TokenStream) nthChar(i int) string {
-	return string([]rune(ts.Code)[i])
+func (ts *TokenStream) nthChar(i int) rune {
+	return []rune(ts.Code)[i]
 }
