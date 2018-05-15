@@ -75,6 +75,8 @@ func (ts *TokenStream) Tokenize() {
 
 		if unicode.IsSpace(currentChar) {
 			i++
+		} else if unicode.IsLetter(currentChar) {
+
 		}
 	}
 
