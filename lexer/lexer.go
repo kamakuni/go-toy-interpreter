@@ -45,7 +45,7 @@ type Span struct {
 
 type Token struct {
 	TokenType TokenType
-	Span      Span
+	Span      *Span
 	Value     interface{}
 }
 
@@ -85,7 +85,11 @@ func (ts *TokenStream) Tokenize() {
 			}
 			var tmp_str = strings.ToLower(tmp)
 			if ts.isKeyword(tmp_str) {
-				tokens = append(tokens, Token{})
+				tokens = append(tokens, Token{
+					TokenType: Keyword,
+					Span:      nil,
+					Value:     tmp_str,
+				})
 			}
 
 		} else if unicode.IsNumber(currentChar) {
@@ -132,7 +136,7 @@ func (ts *TokenStream) unexpectedToken(c rune, i int) {
 	var isFirstLine = true
 	for currIndex := i - 1; currIndex > 0; currIndex-- {
 		fmt.Println(currIndex)
-		if ts.nthChar(currIndex) == "\n" {
+		if string(ts.nthChar(currIndex)) == "\n" {
 			if isFirstLine {
 				column = i - currIndex
 				isFirstLine = false
