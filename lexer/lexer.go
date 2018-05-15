@@ -77,6 +77,8 @@ func (ts *TokenStream) Tokenize() {
 			i++
 		} else if unicode.IsLetter(currentChar) {
 
+		} else if unicode.IsNumber(currentChar) {
+
 		}
 	}
 
