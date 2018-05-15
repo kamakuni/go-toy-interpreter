@@ -2,6 +2,7 @@ package lexer
 
 import (
 	"fmt"
+	"strings"
 	"unicode"
 )
 
@@ -45,6 +46,7 @@ type Span struct {
 type Token struct {
 	TokenType TokenType
 	Span      Span
+	Value     interface{}
 }
 
 type TokenStream struct {
@@ -76,9 +78,22 @@ func (ts *TokenStream) Tokenize() {
 		if unicode.IsSpace(currentChar) {
 			i++
 		} else if unicode.IsLetter(currentChar) {
+			var tmp = ""
+			for i < charCount && unicode.IsLetter(ts.nthChar(i)) {
+				tmp = tmp + string(ts.nthChar(i))
+				i++
+			}
+			var tmp_str = strings.ToLower(tmp)
+			if ts.isKeyword(tmp_str) {
+				tokens = append(tokens, Token{})
+			}
 
 		} else if unicode.IsNumber(currentChar) {
-
+			var tmp = ""
+			for i < charCount && unicode.IsNumber(ts.nthChar(i)) {
+				tmp = tmp + string(ts.nthChar(i))
+				i++
+			}
 		}
 	}
 
