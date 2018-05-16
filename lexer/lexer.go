@@ -114,6 +114,11 @@ func (ts *TokenStream) Tokenize() {
 				tmp = tmp + string(ts.nthChar(i))
 				i++
 			}
+			tokens = append(tokens, Token{
+				TokenType: Number,
+				Span:      nil,
+				Value:     tmp,
+			})
 		}
 	}
 
