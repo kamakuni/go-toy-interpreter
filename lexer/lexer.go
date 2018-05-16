@@ -100,6 +100,12 @@ func (ts *TokenStream) Tokenize() {
 					TokenType: False,
 					Span:      nil,
 				})
+			} else {
+				tokens = append(tokens, Token{
+					TokenType: Identifier,
+					Span:      nil,
+					Value:     tmpStr,
+				})
 			}
 
 		} else if unicode.IsNumber(currentChar) {
