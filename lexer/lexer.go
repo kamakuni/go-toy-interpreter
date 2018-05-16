@@ -83,12 +83,17 @@ func (ts *TokenStream) Tokenize() {
 				tmp = tmp + string(ts.nthChar(i))
 				i++
 			}
-			var tmp_str = strings.ToLower(tmp)
-			if ts.isKeyword(tmp_str) {
+			var tmpStr = strings.ToLower(tmp)
+			if ts.isKeyword(tmpStr) {
 				tokens = append(tokens, Token{
 					TokenType: Keyword,
 					Span:      nil,
-					Value:     tmp_str,
+					Value:     tmpStr,
+				})
+			} else if string(tmpStr) == "true" {
+				tokens = append(tokens, Token{
+					TokenType: True,
+					Span:      nil,
 				})
 			}
 
