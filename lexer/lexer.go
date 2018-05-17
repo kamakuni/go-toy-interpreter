@@ -119,6 +119,21 @@ func (ts *TokenStream) Tokenize() {
 				Span:      nil,
 				Value:     tmp,
 			})
+		} else if currentChar == '"' {
+			var tmp = ""
+			i++
+
+			for i < charCount && ts.nthChar(i) != '"' {
+				tmp = tmp + string(ts.nthChar(i))
+				i++
+			}
+
+			i++
+			tokens = append(tokens, Token{
+				TokenType: String,
+				Span:      nil,
+				Value:     tmp,
+			})
 		}
 	}
 
