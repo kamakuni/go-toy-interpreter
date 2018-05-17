@@ -1,7 +1,11 @@
 package ast
 
+import (
+	"github.com/kamakuni/go-toy-interpreter/lexer"
+)
+
 type Expr struct {
-	Span Span
+	Span lexer.Span
 	Node Expr_
 }
 
