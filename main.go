@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/kamakuni/go-toy-interpreter/ast"
+	"github.com/kamakuni/go-toy-interpreter/lexer"
 	"os"
 )
 
 func main() {
 	fmt.Println(os.Args)
-	ts := ast.CreateTokenStream("this is codes")
+	ts := lexer.CreateTokenStream("this is codes")
 	fmt.Println(ts)
 }
