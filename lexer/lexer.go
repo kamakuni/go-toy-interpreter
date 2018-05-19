@@ -170,7 +170,15 @@ func (ts *TokenStream) Tokenize() {
 				Span:      nil,
 			})
 			i++
+		// If current char is an multiple (*)
+		} else if currentChar == '*' {
+			tokens = append(tokens, Token{
+				TokenType: Multiple,
+				Span:      nil,
+			})
+			i++
 		}
+
 
 	/*
 		tokens = append(tokens, Token{
