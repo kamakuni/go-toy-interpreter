@@ -149,6 +149,12 @@ func (ts *TokenStream) Tokenize() {
 			} else {
 				ts.unexpectedToken(ts.nthChar(i), i)
 			}
+			// If current char is an equals (=)
+		} else if currentChar == '=' {
+			tokens = append(tokens, Token{
+				TokenType: Equals,
+				Span:      nil,
+			})
 		}
 	}
 
