@@ -155,6 +155,14 @@ func (ts *TokenStream) Tokenize() {
 				TokenType: Equals,
 				Span:      nil,
 			})
+			i++
+			// If current char is an plus (+)
+		} else if currentChar == '+' {
+			tokens = append(tokens, Token{
+				TokenType: Plus,
+				Span:      nil,
+			})
+			i++
 		}
 	}
 
