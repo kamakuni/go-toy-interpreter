@@ -156,27 +156,48 @@ func (ts *TokenStream) Tokenize() {
 				Span:      nil,
 			})
 			i++
-			// If current char is an plus (+)
+			// If current char is a plus (+)
 		} else if currentChar == '+' {
 			tokens = append(tokens, Token{
 				TokenType: Plus,
 				Span:      nil,
 			})
 			i++
-		// If current char is an minus (-)
+		// If current char is a minus (-)
 		} else if currentChar == '-' {
 			tokens = append(tokens, Token{
 				TokenType: Minus,
 				Span:      nil,
 			})
 			i++
-		// If current char is an multiple (*)
+		// If current char is a multiple (*)
 		} else if currentChar == '*' {
 			tokens = append(tokens, Token{
 				TokenType: Multiple,
-				Span:      nil,
 			})
 			i++
+		// If current char is a divide (/) or comment (start with //)
+		} else if currentChar == '/' {
+			i++
+			if i < charCount && ts.nthChar(i) == '/' {
+				for i < charCount && ts.nthChar(i) == '\n' {
+					i++
+				}
+
+				i++
+				tokens = append(tokens,Token{
+					TokenType: Comment,
+				})
+			} else {
+				tokens = append(tokens, Token{
+					TokenType: Divide,
+				})
+			}
+		// If currnet char is a mod (%)
+		} else if currentChar == '%' {
+			tokens = append(tokens,Token{
+				TokenType:Mod,
+			})
 		}
 
 
