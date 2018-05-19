@@ -119,6 +119,7 @@ func (ts *TokenStream) Tokenize() {
 				Span:      nil,
 				Value:     tmp,
 			})
+			// If current char is a starting of a string
 		} else if currentChar == '"' {
 			var tmp = ""
 			i++
@@ -134,6 +135,20 @@ func (ts *TokenStream) Tokenize() {
 				Span:      nil,
 				Value:     tmp,
 			})
+			// If current char is a real char
+		} else if currentChar == '\'' {
+			var tmp = string([]rune(ts.Code)[i+1])
+			i = i + 2
+			if ts.nthChar(i) == '\'' {
+				tokens = append(tokens, Token{
+					TokenType: Char,
+					Span:      nil,
+					Value:     tmp,
+				})
+				i++
+			} else {
+				ts.unexpectedToken(ts.nthChar(i), i)
+			}
 		}
 	}
 
