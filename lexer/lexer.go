@@ -163,8 +163,14 @@ func (ts *TokenStream) Tokenize() {
 				Span:      nil,
 			})
 			i++
+		// If current char is an minus (-)
+		} else if currentChar == '-' {
+			tokens = append(tokens, Token{
+				TokenType: Minus,
+				Span:      nil,
+			})
+			i++
 		}
-	}
 
 	/*
 		tokens = append(tokens, Token{
