@@ -255,6 +255,12 @@ func (ts *TokenStream) Tokenize() {
 				TokenType: LBracket,
 			})
 			i++
+			// If current char is a Close Brackets ( [ )
+		} else if currentChar == ']' {
+			tokens = append(tokens, Token{
+				TokenType: RBracket,
+			})
+			i++
 		}
 	}
 	// End od file Token
