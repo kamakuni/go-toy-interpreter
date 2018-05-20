@@ -243,6 +243,12 @@ func (ts *TokenStream) Tokenize() {
 				TokenType: LBrace,
 			})
 			i++
+			// If current char is a Close Braces ( } )
+		} else if currentChar == '}' {
+			tokens = append(tokens, Token{
+				TokenType: RBrace,
+			})
+			i++
 		}
 	}
 	// End od file Token
