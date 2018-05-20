@@ -163,20 +163,20 @@ func (ts *TokenStream) Tokenize() {
 				Span:      nil,
 			})
 			i++
-		// If current char is a minus (-)
+			// If current char is a minus (-)
 		} else if currentChar == '-' {
 			tokens = append(tokens, Token{
 				TokenType: Minus,
 				Span:      nil,
 			})
 			i++
-		// If current char is a multiple (*)
+			// If current char is a multiple (*)
 		} else if currentChar == '*' {
 			tokens = append(tokens, Token{
 				TokenType: Multiple,
 			})
 			i++
-		// If current char is a divide (/) or comment (start with //)
+			// If current char is a divide (/) or comment (start with //)
 		} else if currentChar == '/' {
 			i++
 			if i < charCount && ts.nthChar(i) == '/' {
@@ -185,7 +185,7 @@ func (ts *TokenStream) Tokenize() {
 				}
 
 				i++
-				tokens = append(tokens,Token{
+				tokens = append(tokens, Token{
 					TokenType: Comment,
 				})
 			} else {
@@ -193,20 +193,33 @@ func (ts *TokenStream) Tokenize() {
 					TokenType: Divide,
 				})
 			}
-		// If currnet char is a mod (%)
+			// If currnet char is a mod (%)
 		} else if currentChar == '%' {
-			tokens = append(tokens,Token{
-				TokenType:Mod,
+			tokens = append(tokens, Token{
+				TokenType: Mod,
 			})
+			i++
+			// If current char is a greater than (>) or greater than or equal to (>=)
+		} else if currentChar == '>' {
+			if i+1 < charCount && []rune(ts.Code)[i+1] == '=' {
+				tokens = append(tokens, Token{
+					TokenType: GreaterEqual,
+				})
+				i++
+			} else {
+				tokens = append(tokens, Token{
+					TokenType: Greater,
+				})
+			}
+			i++
 		}
 
+	}
+	// End od file Token
+	tokens = append(tokens, Token{
+		TokenType: EOF,
+	})
 
-	/*
-		tokens = append(tokens, Token{
-			TokenType: EOF,
-			Span:      nil,
-		})
-	*/
 	ts.Tokens = tokens
 }
 
