@@ -212,8 +212,20 @@ func (ts *TokenStream) Tokenize() {
 				})
 			}
 			i++
+			// If current char is a lesser than (<) or lesser than or equal to (<=)
+		} else if currentChar == '<' {
+			if i+1 < charCount && []rune(ts.Code)[i+1] == '=' {
+				tokens = append(tokens, Token{
+					TokenType: LesserEqual,
+				})
+				i++
+			} else {
+				tokens = append(tokens, Token{
+					TokenType: Lesser,
+				})
+			}
+			i++
 		}
-
 	}
 	// End od file Token
 	tokens = append(tokens, Token{
