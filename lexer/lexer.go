@@ -225,6 +225,18 @@ func (ts *TokenStream) Tokenize() {
 				})
 			}
 			i++
+			// If current char is an Open Paranthesis ( ( )
+		} else if currentChar == '(' {
+			tokens = append(tokens, Token{
+				TokenType: LParen,
+			})
+			i++
+			// If current char is a Close Paranthesis ( ) )
+		} else if currentChar == ')' {
+			tokens = append(tokens, Token{
+				TokenType: RParen,
+			})
+			i++
 		}
 	}
 	// End od file Token
