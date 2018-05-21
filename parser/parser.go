@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"github.com/kamakuni/go-toy-interpreter/lexer"
 )
 
@@ -27,4 +28,9 @@ func CreateParser(tokenStream lexer.TokenStream, span lexer.Span) Parser {
 		Token:       currentToken,
 		TokenCount:  tokenCount,
 	}
+}
+
+func (p *Parser) CurrnetTokenToString() string {
+	// TODO フォーマットをどうするか
+	return fmt.Sprintf("", p.Token.TokenType)
 }
