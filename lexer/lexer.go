@@ -264,14 +264,17 @@ func (ts *TokenStream) Tokenize() {
 			// If current char is a Comma ( , )
 		} else if currentChar == ',' {
 			tokens = append(tokens, Token{
-				TokenType: Semicolon,
+				TokenType: Comma,
 			})
 			i++
 			// If current char is a semicolon ( ; )
 		} else if currentChar == ';' {
 			tokens = append(tokens, Token{
-				TokenType: Semicolon
+				TokenType: Semicolon,
 			})
+			// Else throw an exception
+		} else {
+			ts.unexpectedToken(currentChar, i)
 		}
 	}
 	// End od file Token
