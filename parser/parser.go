@@ -5,7 +5,26 @@ import (
 )
 
 type Parser struct {
-	TokenStream lexer.TokenStream
-	Token       lexer.Token
-	Span        lexer.Span
+	TokenStream  lexer.TokenStream
+	Token        lexer.Token
+	Span         lexer.Span
+	TokenCount   int
+	CurrentIndex int
+}
+
+type RPNValue int
+
+const (
+	Operator RPNValue = iota
+	Number
+)
+
+func CreateParser(tokenStream lexer.TokenStream, span lexer.Span) Parser {
+	tokenCount := len(tokenStream.Tokens)
+	currentToken := tokenStream.CurrentToken()
+	return Parser{
+		TokenStream: tokenStream,
+		Token:       currentToken,
+		TokenCount:  tokenCount,
+	}
 }
