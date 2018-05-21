@@ -261,6 +261,17 @@ func (ts *TokenStream) Tokenize() {
 				TokenType: RBracket,
 			})
 			i++
+			// If current char is a Comma ( , )
+		} else if currentChar == ',' {
+			tokens = append(tokens, Token{
+				TokenType: Semicolon,
+			})
+			i++
+			// If current char is a semicolon ( ; )
+		} else if currentChar == ';' {
+			tokens = append(tokens, Token{
+				TokenType: Semicolon
+			})
 		}
 	}
 	// End od file Token
