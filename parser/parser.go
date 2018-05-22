@@ -33,3 +33,11 @@ func CreateParser(tokenStream lexer.TokenStream, span lexer.Span) Parser {
 func (p *Parser) CurrnetTokenToString() string {
 	return fmt.Sprint(p.Token.TokenType)
 }
+
+func (p *Parser) tokenToString(tokenType lexer.TokenType) string {
+	return fmt.Sprint(tokenType)
+}
+
+func (p *Parser) unexpetedToken(ut string) {
+	panic(fmt.Sprintf("Unexpected token found. Expected: %v, Found: %v instead.", ut, p.TokenStream.Tokens[p.CurrentIndex+1].TokenType))
+}
