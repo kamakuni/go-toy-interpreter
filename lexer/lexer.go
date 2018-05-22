@@ -38,6 +38,67 @@ const (
 	EOF                           // End of File
 )
 
+func (t TokenType) String() string {
+	switch t {
+	case Keyword:
+		return "Keyword"
+	case Identifier:
+		return "Identifier"
+	case Char:
+		return "Char"
+	case String:
+		return "String"
+	case Number:
+		return "Number"
+	case True:
+		return "True"
+	case False:
+		return "False"
+	case Equals:
+		return "Equals"
+	case Plus:
+		return "Plus"
+	case Minus:
+		return "Minus"
+	case Multiple:
+		return "Multiple"
+	case Divide:
+		return "Divide"
+	case Mod:
+		return "Mod"
+	case Greater:
+		return "Greater"
+	case Lesser:
+		return "Lesser"
+	case GreaterEqual:
+		return "GreaterEqual"
+	case LesserEqual:
+		return "LesserEqual"
+	case LParen:
+		return "LParen"
+	case RParen:
+		return "RParen"
+	case LBrace:
+		return "LBrace"
+	case RBrace:
+		return "RBrace"
+	case LBracket:
+		return "LBracket"
+	case RBracket:
+		return "RBracket"
+	case Comma:
+		return "Comma"
+	case Semicolon:
+		return "Semicolon"
+	case Comment:
+		return "Comment"
+	case EOF:
+		return "EOF"
+	default:
+		return "OTHER TYPE"
+	}
+}
+
 type Span struct {
 	Lo int
 	Hi int
