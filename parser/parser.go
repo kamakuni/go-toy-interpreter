@@ -31,7 +31,5 @@ func CreateParser(tokenStream lexer.TokenStream, span lexer.Span) Parser {
 }
 
 func (p *Parser) CurrnetTokenToString() string {
-	// TODO フォーマットをどうするか
-	// 関数にする
-	return fmt.Sprintf("", p.Token.TokenType)
+	return fmt.Sprint(p.Token.TokenType)
 }
