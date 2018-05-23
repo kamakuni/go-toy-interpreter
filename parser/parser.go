@@ -56,3 +56,14 @@ func (p *Parser) unexpetedToken(ut string) {
 func (p *Parser) checkToken(expectedToken string) bool {
 	return p.tokenToString(p.TokenStream.Tokens[p.CurrentIndex+1].TokenType) == expectedToken
 }
+
+func (p *Parser) advanceToken() bool {
+	p.CurrentIndex++
+
+	// If have next token, get next token and return true otherwise return false.
+	if p.CurrentIndex != p.TokenCount {
+		p.Token = p.TokenStream.NextToken()
+	}
+
+	return p.CurrentIndex != p.TokenCount
+}
