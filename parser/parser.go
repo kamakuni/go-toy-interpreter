@@ -67,3 +67,7 @@ func (p *Parser) advanceToken() bool {
 
 	return p.CurrentIndex != p.TokenCount
 }
+
+func (p *Parser) eatOperator() bool {
+	return p.eatToken("Plus") || p.eatToken("Minus") || p.eatToken("Multiple") || p.eatToken("Divide") || p.eatToken("Mod")
+}
