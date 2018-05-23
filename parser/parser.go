@@ -42,16 +42,16 @@ func (p *Parser) unexpetedToken(ut string) {
 	panic(fmt.Sprintf("Unexpected token found. Expected: %v, Found: %v instead.", ut, p.TokenStream.Tokens[p.CurrentIndex+1].TokenType))
 }
 
-/*func (p *Parser) eatToken(expected_token string) bool {
-	let is_exist = self.check_token(expected_token);
+func (p *Parser) eatToken(expectedToken string) bool {
+	isExist := p.checkToken(expectedToken)
 
 	// If there is a token next, advance token and return true, otherwise return false.
-	if is_exist {
-		self.advance_token()
+	if isExist {
+		return p.advanceToken()
 	} else {
-		false
+		return false
 	}
-}*/
+}
 
 func (p *Parser) checkToken(expectedToken string) bool {
 	return p.tokenToString(p.TokenStream.Tokens[p.CurrentIndex+1].TokenType) == expectedToken
