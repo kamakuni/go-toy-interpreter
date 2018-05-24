@@ -71,3 +71,12 @@ func (p *Parser) advanceToken() bool {
 func (p *Parser) eatOperator() bool {
 	return p.eatToken("Plus") || p.eatToken("Minus") || p.eatToken("Multiple") || p.eatToken("Divide") || p.eatToken("Mod")
 }
+
+func (p *Parser) getCurrentNumber() float64 {
+	switch p.Token.TokenType {
+	case lexer.Number:
+		return p.Token.Value.(float64)
+	default:
+		panic("Error while parsing to integer.")
+	}
+}
