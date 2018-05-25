@@ -14,10 +14,15 @@ type Parser struct {
 	CurrentIndex int
 }
 
-type RPNValue int
+type RPNValue struct {
+	Type  RPNType
+	Value interface{}
+}
+
+type RPNType int
 
 const (
-	Operator RPNValue = iota
+	Operator RPNType = iota
 	Number
 )
 
@@ -178,12 +183,12 @@ func (p *Parser) parseInteger() ast.Expr_ {
 
 /**
 * Calculate arithmetic expression with Shunting-Yard Algorithm
-*/
+ */
 func (p *Parser) calculate(identifier String) Expr_ {
 	var operatorStack []lexer.TokenType
-	var rpn []lexer.RPNValue
+	var rpn []RPNValue
 	var opPrecedences = make(map[ast.TokenType]int)
-	var waitExp = true;
+	var waitExp = true
 
 	// Push operators to precendeces list
 	opPrecedences[lexer.Plus] = 2
@@ -222,21 +227,23 @@ func (p *Parser) calculate(identifier String) Expr_ {
 		}*/
 	}
 
-	// wait_exp == true means line ended with an operator or line is empty.
+	// waitExp == true means line ended with an operator or line is empty.
 	if waitExp {
-		p.unexpectedToken("Number");
+		p.unexpectedToken("Number")
 	}
 
 	// Popping stack and pushing to rpn queue.
-	for op in operator_stack.iter().rev() {
-		rpn.push(RPNValue::Operator(op.to_owned()));
+	for i := len(operatorStack) - 1; i >= 0; i++ {
+		rpn = append(rpn, RPNValue{
+			Type:  Operator,
+			Value: operatorStack[i],
+		}) //operatorStack[i]
 	}
 
 	// Calling soveRPN function and returning it as Expr_.
-	Expr_::Assign(identifier,
-					Box::new(Expr {
-						span: None,
-						node: Expr_::Constant(Constant::Number(self.solve_rpn(rpn))),
-					}))
+	/*Expr_::Assign(identifier,
+	Box::new(Expr {
+		span: None,
+		node: Expr_::Constant(Constant::Number(self.solve_rpn(rpn))),
+	}))*/
 }
-
