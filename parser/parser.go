@@ -241,9 +241,23 @@ func (p *Parser) calculate(identifier String) Expr_ {
 	}
 
 	// Calling soveRPN function and returning it as Expr_.
-	/*Expr_::Assign(identifier,
+	/*return Expr_{
+		Type: ast.Assign,
+		Value: (identifier,Expr{
+
+		})
+	}
+	ast.Assign(identifier,
 	Box::new(Expr {
 		span: None,
 		node: Expr_::Constant(Constant::Number(self.solve_rpn(rpn))),
 	}))*/
+}
+
+func (p *Parser) expectedSemicolon() {
+	if p.eatToken("Semicolon") {
+		p.advanceToken()
+	} else {
+		p.unexpectedToken("Semicolon")
+	}
 }

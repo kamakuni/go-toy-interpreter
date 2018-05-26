@@ -9,11 +9,16 @@ type Expr struct {
 	Node Expr_
 }
 
-type Expr_ int
+type Expr_ struct {
+	Type  ExprType
+	Value interface{}
+}
+
+type ExprType int
 
 const (
 	// Block of statements
-	Block Expr_ = iota
+	Block ExprType = iota
 	// Add two expressions.
 	Add
 	// Subtract two expressions
