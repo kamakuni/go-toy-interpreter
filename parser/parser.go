@@ -241,17 +241,43 @@ func (p *Parser) calculate(identifier String) Expr_ {
 	}
 
 	// Calling soveRPN function and returning it as Expr_.
-	/*return Expr_{
-		Type: ast.Assign,
-		Value: (identifier,Expr{
+	return Assign{
+		Value: identifier,
+		Expr: ast.Expr {
+			Node : Constant{
 
-		})
+			}
+		}
 	}
 	ast.Assign(identifier,
 	Box::new(Expr {
 		span: None,
 		node: Expr_::Constant(Constant::Number(self.solve_rpn(rpn))),
 	}))*/
+}
+
+func (p *Parser) solveRpn(rpn []RPNValue) float64 {
+	var valStack []float64
+
+	for index, value := range rpn {
+		if value.Type == Number {
+			valStack = append(valStack, value.Value)
+		} else if value.Type == Operator {
+			stackLength := len(valStack)
+			if stackLength >= 2 {
+				first,valStack = pop(valStack)
+				second,valStack = pop(valStack)
+			} else {
+
+			}
+		}
+	}
+}
+
+func pop(slice []interface{})(interface{},[]interface{}){
+	ans := src[len(slice) - 1]
+	slice = slice[:len(slice) - 1]
+	return ans, slice
 }
 
 func (p *Parser) expectedSemicolon() {
