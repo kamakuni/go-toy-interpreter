@@ -267,11 +267,20 @@ func (p *Parser) solveRpn(rpn []RPNValue) float64 {
 			if stackLength >= 2 {
 				first,valStack = pop(valStack)
 				second,valStack = pop(valStack)
+				switch value.Value {
+				case lexer.Plus : valStack = append(valStack,second + first)
+				case lexer.Minus : valStack = append(valStack,second - first)
+				case lexer.Multiple : valStack = append(valStack,second * first)
+				case lexer.Divide : valStack = append(valStack,second / first)
+				case lexer.Mod : valStack = append(valStack,second % first)
+				default : p.unexpectedToken(p.tokenToString(x))
+				}
 			} else {
-
+				panic("Parse error in arithmetic value. Check number assignment.");
 			}
 		}
 	}
+	return valStack[0]
 }
 
 func pop(slice []interface{})(interface{},[]interface{}){
