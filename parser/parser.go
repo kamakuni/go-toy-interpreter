@@ -159,7 +159,7 @@ func (p *Parser) Parse() ast.Expr {
 	}
 }
 */
-/*
+
 func (p *Parser) parseInteger() ast.Expr_ {
 	var identifier = ""
 	// Eat Identifier
@@ -171,15 +171,15 @@ func (p *Parser) parseInteger() ast.Expr_ {
 		}
 		// Eat equal symbol (=)
 		if p.eatToken("Equals") {
-			//	return p.calculate(identifier)
+			return p.calculate(identifier)
 		} else {
 			p.unexpectedToken("Equals")
 		}
 	} else {
 		p.unexpectedToken("Identifier")
 	}
-	return ast.NIL
-}*/
+	return ast.NIL{}
+}
 
 /**
 * Calculate arithmetic expression with Shunting-Yard Algorithm
