@@ -167,7 +167,7 @@ func (p *Parser) parseInteger() ast.Expr_ {
 		if p.Token.TokenType == lexer.Identifier {
 			identifier = p.Token.Value.(string)
 		} else {
-			// TODO
+			panic("not yet implemented")
 		}
 		// Eat equal symbol (=)
 		if p.eatToken("Equals") {
