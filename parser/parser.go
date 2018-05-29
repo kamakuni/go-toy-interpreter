@@ -199,32 +199,32 @@ func (p *Parser) calculate(identifier String) Expr_ {
 
 	// Loop for all numbers and operators
 	for {
-		/*if p.EatToken("Number") {
+		if p.EatToken("Number") {
 			// Get first number
-			rpn = append(RPNValue::Number(self.get_current_number()));
-			wait_exp = false;
-		} else if wait_exp {
+			rpn = append(rpn,RPNValue{Type:Number,Value:p.getCurrentNumber()})
+			waitExp = false;
+		} else if waitExp {
 			// If number is not set break the loop
 			break;
-		} else if self.eat_operator() {
+		} else if p.eatOperator() {
 			// If eat an operator
-			let mut stack_len = operator_stack.len();
+			var stackLen = len(operatorStack)
 
-			while stack_len > 0 &&
-					op_precedences.get(&self.token.token_type) <
-					op_precedences.get(&operator_stack[stack_len - 1]) {
+			for stackLen > 0 &&
+					opPrecedences.get(&self.token.token_type) <
+					opPrecedences.get(&operator_stack[stack_len - 1]) {
 				rpn.push(RPNValue::Operator(operator_stack[stack_len - 1].to_owned()));
 				operator_stack.remove(stack_len - 1);
 				stack_len -= 1;
 			}
 
-			operator_stack.push(self.token.token_type.clone());
-			wait_exp = true;
+			operatorStack = append(operatorStack,p.Token.TokenType)
+			waitExp = true;
 		} else {
 			// This means expression is ended and we need a semicolon check.
-			p.expect_semicolon();
+			p.expectSemicolon();
 			break;
-		}*/
+		}
 	}
 
 	// waitExp == true means line ended with an operator or line is empty.
