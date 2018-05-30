@@ -6,7 +6,8 @@ import (
 
 type Expr struct {
 	Span lexer.Span
-	Node Expr_
+	//	Node Expr_
+	Node interface{}
 }
 
 /*
@@ -88,7 +89,7 @@ type Variable struct {
 // Constant expression
 type Constant struct {
 	Expr_
-	Expr Expr
+	Type ConstantType
 }
 
 // Assignment expression
@@ -131,8 +132,17 @@ type Nil struct {
 
 type ConstantType int
 
-const (
-	String ConstantType = iota
-	Number
-	Bool
-)
+type String struct {
+	ConstantType
+	Value string
+}
+
+type Number struct {
+	ConstantType
+	Value float64
+}
+
+type Bool struct {
+	ConstantType
+	Value bool
+}

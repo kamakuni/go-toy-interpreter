@@ -201,29 +201,29 @@ func (p *Parser) calculate(identifier String) Expr_ {
 	for {
 		if p.EatToken("Number") {
 			// Get first number
-			rpn = append(rpn,RPNValue{Type:Number,Value:p.getCurrentNumber()})
-			waitExp = false;
+			rpn = append(rpn, RPNValue{Type: Number, Value: p.getCurrentNumber()})
+			waitExp = false
 		} else if waitExp {
 			// If number is not set break the loop
-			break;
+			break
 		} else if p.eatOperator() {
 			// If eat an operator
 			var stackLen = len(operatorStack)
 
 			for stackLen > 0 &&
-					opPrecedences.get(&self.token.token_type) <
-					opPrecedences.get(&operator_stack[stack_len - 1]) {
-				rpn.push(RPNValue::Operator(operator_stack[stack_len - 1].to_owned()));
-				operator_stack.remove(stack_len - 1);
-				stack_len -= 1;
+				opPrecedences[p.Token.TokenType] <
+					opPrecedences[operatorStack[stackLen-1]] {
+				rpn = append(rpn, RPNValue{Type: Operator, Value: operatorStack[stackLen-1]})
+				operator_stack = append(operator_stack[:stackLen-1], operator_stack[stackLen-1+1:]...)
+				stackLen--
 			}
 
-			operatorStack = append(operatorStack,p.Token.TokenType)
-			waitExp = true;
+			operatorStack = append(operatorStack, p.Token.TokenType)
+			waitExp = true
 		} else {
 			// This means expression is ended and we need a semicolon check.
-			p.expectSemicolon();
-			break;
+			p.expectSemicolon()
+			break
 		}
 	}
 
@@ -241,19 +241,16 @@ func (p *Parser) calculate(identifier String) Expr_ {
 	}
 
 	// Calling soveRPN function and returning it as Expr_.
-	return Assign{
+	return ast.Assign{
 		Value: identifier,
-		Expr: ast.Expr {
-			Node : Constant{
-
-			}
-		}
+		Expr: ast.Expr{
+			Node: ast.Constant{
+				Type: ast.Number{
+					Value: p.solveRpn(rpn),
+				},
+			},
+		},
 	}
-	ast.Assign(identifier,
-	Box::new(Expr {
-		span: None,
-		node: Expr_::Constant(Constant::Number(self.solve_rpn(rpn))),
-	}))*/
 }
 
 func (p *Parser) solveRpn(rpn []RPNValue) float64 {
@@ -265,27 +262,33 @@ func (p *Parser) solveRpn(rpn []RPNValue) float64 {
 		} else if value.Type == Operator {
 			stackLength := len(valStack)
 			if stackLength >= 2 {
-				first,valStack = pop(valStack)
-				second,valStack = pop(valStack)
+				first, valStack = pop(valStack)
+				second, valStack = pop(valStack)
 				switch value.Value {
-				case lexer.Plus : valStack = append(valStack,second + first)
-				case lexer.Minus : valStack = append(valStack,second - first)
-				case lexer.Multiple : valStack = append(valStack,second * first)
-				case lexer.Divide : valStack = append(valStack,second / first)
-				case lexer.Mod : valStack = append(valStack,second % first)
-				default : p.unexpectedToken(p.tokenToString(x))
+				case lexer.Plus:
+					valStack = append(valStack, second+first)
+				case lexer.Minus:
+					valStack = append(valStack, second-first)
+				case lexer.Multiple:
+					valStack = append(valStack, second*first)
+				case lexer.Divide:
+					valStack = append(valStack, second/first)
+				case lexer.Mod:
+					valStack = append(valStack, second%first)
+				default:
+					p.unexpectedToken(p.tokenToString(x))
 				}
 			} else {
-				panic("Parse error in arithmetic value. Check number assignment.");
+				panic("Parse error in arithmetic value. Check number assignment.")
 			}
 		}
 	}
 	return valStack[0]
 }
 
-func pop(slice []interface{})(interface{},[]interface{}){
-	ans := src[len(slice) - 1]
-	slice = slice[:len(slice) - 1]
+func pop(slice []interface{}) (interface{}, []interface{}) {
+	ans := src[len(slice)-1]
+	slice = slice[:len(slice)-1]
 	return ans, slice
 }
 
