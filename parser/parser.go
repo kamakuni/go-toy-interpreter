@@ -160,7 +160,7 @@ func (p *Parser) Parse() ast.Expr {
 }
 */
 
-func (p *Parser) parseInteger() ast.Expr_ {
+func (p *Parser) parseInteger() interface{} {
 	var identifier = ""
 	// Eat Identifier
 	if p.eatToken("Identifier") {
@@ -178,13 +178,13 @@ func (p *Parser) parseInteger() ast.Expr_ {
 	} else {
 		p.unexpectedToken("Identifier")
 	}
-	return ast.NIL{}
+	return ast.Nil{}
 }
 
 /**
 * Calculate arithmetic expression with Shunting-Yard Algorithm
  */
-func (p *Parser) calculate(identifier String) Expr_ {
+func (p *Parser) calculate(identifier string) interface{} {
 	var operatorStack []lexer.TokenType
 	var rpn []RPNValue
 	var opPrecedences = make(map[ast.TokenType]int)
@@ -284,6 +284,10 @@ func (p *Parser) solveRpn(rpn []RPNValue) float64 {
 		}
 	}
 	return valStack[0]
+}
+
+func (p *Parser) parseString() {
+
 }
 
 func pop(slice []interface{}) (interface{}, []interface{}) {
