@@ -222,7 +222,7 @@ func (p *Parser) calculate(identifier string) interface{} {
 			waitExp = true
 		} else {
 			// This means expression is ended and we need a semicolon check.
-			p.expectedSemicolon()
+			p.expectSemicolon()
 			break
 		}
 	}
@@ -286,8 +286,47 @@ func (p *Parser) solveRpn(rpn []RPNValue) float64 {
 	return valStack[0]
 }
 
-func (p *Parser) parseString() {
+func (p *Parser) parseString() interface{} {
+	var identifier = ""
+	var str = ""
+	var expr interface{}
 
+	// Eat identifier
+	if p.eatToken("Identifier") {
+		if p.Token.TokenType == lexer.Identifier {
+			identifier = p.Token.Value
+		} else {
+			panic("not yet implemented")
+		}
+
+		if p.eatToken("Equals") {
+			if p.eatToken("String") {
+				if p.Token.TokenType == lexer.String {
+					str = p.Token.Value
+
+					expr = ast.Assign{
+						Value: identifier,
+						Expr: ast.Expr{
+							Node: ast.Constant{
+								Type: ast.String{
+									Value: str,
+								},
+							},
+						},
+					}
+
+					p.expectSemicolon()
+				} else {
+					panic("not yet implemented")
+				}
+			}
+		} else {
+			p.unexpectedToken("Equals")
+		}
+	} else {
+		p.unexpectedToken("Identifier")
+	}
+	return ast.Nil{}
 }
 
 func pop(slice []interface{}) (interface{}, []interface{}) {
@@ -296,7 +335,7 @@ func pop(slice []interface{}) (interface{}, []interface{}) {
 	return ans, slice
 }
 
-func (p *Parser) expectedSemicolon() {
+func (p *Parser) expectSemicolon() {
 	if p.eatToken("Semicolon") {
 		p.advanceToken()
 	} else {
