@@ -187,7 +187,7 @@ func (p *Parser) parseInteger() interface{} {
 func (p *Parser) calculate(identifier string) interface{} {
 	var operatorStack []lexer.TokenType
 	var rpn []RPNValue
-	var opPrecedences = make(map[ast.TokenType]int)
+	var opPrecedences = make(map[lexer.TokenType]int)
 	var waitExp = true
 
 	// Push operators to precendeces list
@@ -199,7 +199,7 @@ func (p *Parser) calculate(identifier string) interface{} {
 
 	// Loop for all numbers and operators
 	for {
-		if p.EatToken("Number") {
+		if p.eatToken("Number") {
 			// Get first number
 			rpn = append(rpn, RPNValue{Type: Number, Value: p.getCurrentNumber()})
 			waitExp = false
@@ -214,7 +214,7 @@ func (p *Parser) calculate(identifier string) interface{} {
 				opPrecedences[p.Token.TokenType] <
 					opPrecedences[operatorStack[stackLen-1]] {
 				rpn = append(rpn, RPNValue{Type: Operator, Value: operatorStack[stackLen-1]})
-				operator_stack = append(operator_stack[:stackLen-1], operator_stack[stackLen-1+1:]...)
+				operatorStack = append(operatorStack[:stackLen-1], operatorStack[stackLen-1+1:]...)
 				stackLen--
 			}
 
@@ -222,7 +222,7 @@ func (p *Parser) calculate(identifier string) interface{} {
 			waitExp = true
 		} else {
 			// This means expression is ended and we need a semicolon check.
-			p.expectSemicolon()
+			p.expectedSemicolon()
 			break
 		}
 	}
