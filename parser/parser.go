@@ -316,9 +316,55 @@ func (p *Parser) parseString() interface{} {
 					}
 
 					p.expectSemicolon()
+					return expr
 				} else {
 					panic("not yet implemented")
 				}
+			}
+		} else {
+			p.unexpectedToken("Equals")
+		}
+	} else {
+		p.unexpectedToken("Identifier")
+	}
+	return ast.Nil{}
+}
+
+func (p *Parser) parseBool() interface{} {
+	var identifier = ""
+	var value bool
+	var expr interface{}
+
+	// Eat identifier
+	if p.eatToken("Identifier") {
+		if p.Token.TokenType == lexer.Identifier {
+			identifier = p.Token.Value
+		} else {
+			panic("not yet implemented")
+		}
+
+		if p.eatToken("Equals") {
+			if p.eatToken("True") || p.eatToken("False") {
+				if p.Token.TokenType == lexer.True {
+					value = true
+				} else if p.Token.TokenType == lexer.False {
+					value = false
+				} else {
+					panic("not yet implemented")
+				}
+				expr = ast.Assign{
+					Value: identifier,
+					Expr: ast.Expr{
+						Node: ast.Constant{
+							Type: ast.String{
+								Value: str,
+							},
+						},
+					},
+				}
+
+				p.expectSemicolon()
+				return expr
 			}
 		} else {
 			p.unexpectedToken("Equals")
