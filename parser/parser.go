@@ -428,36 +428,19 @@ func (p *Parser) parseIf() interface{} {
 		} else {
 			p.unexpectedToken("LBrace")
 		}
-
-		if p.eatToken("Equals") {
-			if p.eatToken("String") {
-				if p.Token.TokenType == lexer.String {
-					str = p.Token.Value
-
-					expr = ast.Assign{
-						Value: identifier,
-						Expr: ast.Expr{
-							Node: ast.Constant{
-								Type: ast.String{
-									Value: str,
-								},
-							},
-						},
-					}
-
-					p.expectSemicolon()
-					return expr
-				} else {
-					panic("not yet implemented")
-				}
-			}
-		} else {
-			p.unexpectedToken("Equals")
-		}
 	} else {
 		p.unexpectedToken("LParen")
 	}
-	return ast.Nil{}
+	expr = ast.If{
+		Expr1: ast.Expr{
+			Node: ast.Variable{
+				Value: conditionIdentifier,
+			},
+		},
+		Expr2: ifBlock,
+		Expr3: elseBlock,
+	}
+	return expr
 }
 
 func pop(slice []interface{}) (interface{}, []interface{}) {
