@@ -375,6 +375,91 @@ func (p *Parser) parseBool() interface{} {
 	return ast.Nil{}
 }
 
+func (p *Parser) parseIf() interface{} {
+	var conditionIdentifier = ""
+	var ifBlock = ast.Expr{
+		Node: ast.Nil,
+	}
+	var elseBlock interface{}
+
+	// Eat identifier
+	if p.eatToken("LParen") {
+		if p.eatToken("Identifier") {
+			if p.Token.TokenType == lexer.Identifier {
+				conditionIdentifier = p.Token.Value
+			} else {
+				panic("not yet implemented")
+			}
+		} else {
+			p.unexpectedToken("Identifier")
+		}
+
+		// Eat right parenthesis for end of the condition
+		if p.eatToken("RParen") {
+			// Eat left brace for the start of the if block
+			if p.eatToken("LBrace") {
+
+				p.advanceToken()
+				if_block = self.parse()
+
+				if p.TokenStream.Tokens[p.CurrentIndex+1].TokenType == lexer.Identifier {
+					if p.TokenStream.Tokens[p.CurrentIndex+1].Value == "else" {
+
+					} else {
+						elseBlock = nil
+					}
+					if x == "else" {
+						p.advanceToken()
+
+						// Eat left brace for start of the else block
+						if p.eatToken("LBrace") {
+							p.advanceToken()
+							elseBlock = p.parse()
+						} else {
+							p.unexpectedToken("LBrace")
+						}
+					}
+				} else {
+					elseBlock = nil
+				}
+			} else {
+				p.unexpectedToken("LBrace")
+			}
+		} else {
+			p.unexpectedToken("LBrace")
+		}
+
+		if p.eatToken("Equals") {
+			if p.eatToken("String") {
+				if p.Token.TokenType == lexer.String {
+					str = p.Token.Value
+
+					expr = ast.Assign{
+						Value: identifier,
+						Expr: ast.Expr{
+							Node: ast.Constant{
+								Type: ast.String{
+									Value: str,
+								},
+							},
+						},
+					}
+
+					p.expectSemicolon()
+					return expr
+				} else {
+					panic("not yet implemented")
+				}
+			}
+		} else {
+			p.unexpectedToken("Equals")
+		}
+	} else {
+		p.unexpectedToken("LParen")
+	}
+	return ast.Nil{}
+}
+
 func pop(slice []interface{}) (interface{}, []interface{}) {
 	ans := src[len(slice)-1]
 	slice = slice[:len(slice)-1]
