@@ -443,7 +443,55 @@ func (p *Parser) parseIf() interface{} {
 	return expr
 }
 
-func (p *Parser) parseCall() interface{} {
+func (p *Parser) parseCall(identifier string) interface{} {
+	var str = ""
+	var expr interface{}
+	var params []interface{}
+
+	// Do While loop for paramaters
+	for {
+		// Eat String
+		if p.eatToken("String") {
+			// Create an expression and return it.
+			if p.Token.TokenType == lexer.String {
+				str = p.Token.Value
+			} else {
+				panic("not yet implemented")
+			}
+			// Eat identifer
+		} else if p.eatToken("Identifier") {
+			// Create an expression and return it.
+			if p.Token.TokenType == lexer.Identifier {
+				str = p.Token.Value
+			} else {
+				panic("not yet implemented")
+			}
+
+			params = append(params, ast.Expr{
+				Node:  lexer.Variable,
+				Value: str,
+			})
+		} else {
+			panic("not yet implemented")
+		}
+
+		// Logical check for do while loop
+		if p.eatToken("Comma") {
+			break
+		}
+	}
+	expr = ast.Call{
+		Value: identifier,
+		Exprs: params,
+	}
+	// Eat RParen
+	if p.eatToken("RParen") {
+		p.expectSemicolon()
+		return expr
+	} else {
+		p.unexpectedToken("RParen")
+		return ast.Nil{}
+	}
 
 }
 
