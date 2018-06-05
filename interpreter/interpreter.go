@@ -26,3 +26,8 @@ func NewInterpreter(p parser.Parser) Interpreter {
 		Ast: p.Parse(),
 	}
 }
+
+func (i *Interpreter) run() {
+	node := i.Ast.Node
+	i.runBlock(node)
+}
