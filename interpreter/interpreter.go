@@ -31,3 +31,9 @@ func (i *Interpreter) run() {
 	node := i.Ast.Node
 	i.runBlock(node)
 }
+
+func (i *Interpreter) runBlock(expr interface{}) {
+	if b, ok := expr.(ast.Block); ok {
+
+	}
+}
