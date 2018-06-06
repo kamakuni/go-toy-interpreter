@@ -23,7 +23,7 @@ type Interpreter struct {
 
 func NewInterpreter(p parser.Parser) Interpreter {
 	return Interpreter{
-		Ast: p.Parse(),
+		Ast: i.Parse(),
 	}
 }
 
@@ -37,13 +37,13 @@ func (i *Interpreter) runBlock(expr interface{}) {
 		for i, line := range b.Exprs {
 			if a, ok := line.Node.(ast.Assign); ok {
 				// TODO
-				// p.interpretAssign(identifier, value)
+				// i.interpretAssign(identifier, value)
 			} else if c, ok := line.Node.(ast.Call); ok {
 				// TODO
-				// p.interpretCall(identifier, params)
+				// i.interpretCall(identifier, params)
 			} else if i, ok := line.Node.(ast.If); ok {
 				// TODO
-				// p.interpretIf(identifier, if_block, else_block)
+				// i.interpretIf(identifier, if_block, else_block)
 			} else if e, ok := line.Node.(ast.EOF); ok {
 				// TODO
 				println("Program has ended.")
@@ -53,5 +53,15 @@ func (i *Interpreter) runBlock(expr interface{}) {
 		}
 	} else {
 		println("")
+	}
+}
+
+func (i *Interpreter) interpretAssign(identifier string, params ast.Expr) {
+	if identifier == "yaz" {
+		// TODO
+		//i.print(params)
+	} else if identifier == "oku" {
+		// TODO
+		//i.get(params)
 	}
 }
