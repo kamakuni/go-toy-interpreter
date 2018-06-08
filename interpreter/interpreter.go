@@ -1,16 +1,19 @@
 package interpreter
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/kamakuni/go-toy-interpreter/ast"
 	"github.com/kamakuni/go-toy-interpreter/parser"
+	"os"
 )
 
-type Variable struct {
-}
+type SymbolType int
 
-type Function struct {
-}
+const (
+	Variable = iota SymbolType
+	Function
+)
 
 type Symbol struct {
 	SymbolType interface{}
@@ -86,6 +89,20 @@ func (i *Interpreter) print(params []ast.Expr) {
 	}
 }
 
-func (i *Interpreter) get() {
-
+func (i *Interpreter) get(params []ast.Expr) {
+	for i, param := range params {
+		reader := bufio.NewReader(os.Stdin)
+		line, _ := reader.ReadString('\n')
+		switch v := param.Node.(type){
+		case ast.Variable: 
+			p.SymbolTable[v.Value] = Symbol{
+				SymbolType:Variable,
+				Value:ast.String{
+					Value: line,
+				},
+			}
+		default: 
+			println("Parameter requires a variable identifier!")
+		}
+	}
 }
