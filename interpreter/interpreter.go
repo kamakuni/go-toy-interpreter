@@ -73,17 +73,23 @@ func (i *Interpreter) interpretAssign(identifier string, params ast.Expr) {
 func (i *Interpreter) print(params []ast.Expr) {
 	var output := ""
 	for i, param := range params {
-		if c, ok := param.Node.(ast.Constant); ok {
-			if s, ok := c.Type.(ast.String); ok {
-				output := output + s.Value
-			} else if n, ok := c.Type.(ast.Number); ok {
-				output := output + fmt.Sprint(n.Value)
-			} else if b, ok := c.Type.(ast.Bool); ok {
-				output := output + fmt.Sprint(b.Value)
+		switch n := param.Node.(type){
+		case ast.Constant:
+			switch t := n.Type.(type) {
+			case ast.String:
+				output += t.Value 
+			case ast.Number:
+				output += fmt.Sprint(t.Value)
+			case ast.Bool:
+				output += fmt.Sprint(t.Value)
 			}
-		} else if v, ok := param.Node.(ast.Variable); ok {
-			// TODO
-		} else {
+		case ast.Variable:
+			if p.SymbolTable[n.Value] != nil {
+				output += p.SymbolTable[n.Value].(string)
+			} else {
+				println("%v variable not found!", n.Value)
+			}
+		default:
 			println("Other type of node found!")
 		}
 	}
