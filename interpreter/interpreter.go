@@ -60,13 +60,11 @@ func (i *Interpreter) runBlock(expr interface{}) {
 	}
 }
 
-func (i *Interpreter) interpretAssign(identifier string, params ast.Expr) {
+func (i *Interpreter) interpretCall(identifier string, params ast.Expr) {
 	if identifier == "yaz" {
-		// TODO
-		//i.print(params)
+		i.print(params)
 	} else if identifier == "oku" {
-		// TODO
-		//i.get(params)
+		i.get(params)
 	}
 }
 
@@ -85,7 +83,7 @@ func (i *Interpreter) print(params []ast.Expr) {
 			}
 		case ast.Variable:
 			if p.SymbolTable[n.Value] != nil {
-				output += p.SymbolTable[n.Value].(string)
+				output += i.SymbolTable[n.Value].(string)
 			} else {
 				println("%v variable not found!", n.Value)
 			}
@@ -101,7 +99,7 @@ func (i *Interpreter) get(params []ast.Expr) {
 		line, _ := reader.ReadString('\n')
 		switch v := param.Node.(type){
 		case ast.Variable: 
-			p.SymbolTable[v.Value] = Symbol{
+			i.SymbolTable[v.Value] = Symbol{
 				SymbolType:Variable,
 				Value:ast.String{
 					Value: line,
