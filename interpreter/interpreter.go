@@ -60,6 +60,17 @@ func (i *Interpreter) runBlock(expr interface{}) {
 	}
 }
 
+func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
+	if value.Node == ast.Constant {
+		i.SymbolTable[identifier] = Symbol {
+			SymbolType : SymbolType.Variable,
+			
+		}
+	} else {
+		println("Unimplemented feature found!")
+	}
+}
+
 func (i *Interpreter) interpretCall(identifier string, params ast.Expr) {
 	if identifier == "yaz" {
 		i.print(params)
