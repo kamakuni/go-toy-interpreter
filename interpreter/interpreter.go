@@ -72,7 +72,30 @@ func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
 }
 
 func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlock ast.Expr) {
-	
+	var variable = Symbol{
+		SymbolType: SymbolType.Variable,
+		Value: ast.String,
+	}
+
+	// Get if condition
+	if n,ok = identifier.Node.(ast.Variable); ok {
+		i.SymbolTable[n]
+	}
+
+	// If condition is a bool value interpret if, otherwise display an error.
+	switch v := variable.Value.(type) {
+	case ast.Bool:
+		// If bool value is true then execute if block.
+		if v.Value {			
+			i.runBlock(ifBlock)
+		// If bool value is false and else block is exist, execute else block.
+		} else if  elseBlock != nil {
+			i.runBlock(elseBlock)
+		}
+	case ast.String: panic("Uninitilized variable found!")
+	default: 
+		println("Unimplemented feature found!")
+	}
 }
 
 func (i *Interpreter) interpretCall(identifier string, params ast.Expr) {
