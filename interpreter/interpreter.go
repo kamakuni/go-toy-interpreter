@@ -71,12 +71,12 @@ func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
 	}
 }
 
+func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlock ast.Expr) {
+	
+}
+
 func (i *Interpreter) interpretCall(identifier string, params ast.Expr) {
-	if identifier == "yaz" {
-		i.print(params)
-	} else if identifier == "oku" {
-		i.get(params)
-	}
+
 }
 
 func (i *Interpreter) print(params []ast.Expr) {
