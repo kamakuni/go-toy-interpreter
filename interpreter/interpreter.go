@@ -40,34 +40,38 @@ func (i *Interpreter) runBlock(expr interface{}) {
 	if b, ok := expr.(ast.Block); ok {
 		for i, line := range b.Exprs {
 			if a, ok := line.Node.(ast.Assign); ok {
-				// TODO
-				// i.interpretAssign(identifier, value)
+				i.interpretAssign(identifier, value)
 			} else if c, ok := line.Node.(ast.Call); ok {
-				// TODO
-				// i.interpretCall(identifier, params)
+				i.interpretCall(identifier, params)
 			} else if i, ok := line.Node.(ast.If); ok {
-				// TODO
-				// i.interpretIf(identifier, if_block, else_block)
+				i.interpretIf(identifier, if_block, else_block)
 			} else if e, ok := line.Node.(ast.EOF); ok {
-				// TODO
 				println("Program has ended.")
 			} else {
 				println("Unimplemented feature found!")
 			}
 		}
 	} else {
-		println("")
+		println("Block not found")
 	}
 }
 
 func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
-	if value.Node == ast.Constant {
+	if c, ok == ast.Constant.(value.Node); ok {
 		i.SymbolTable[identifier] = Symbol {
 			SymbolType : SymbolType.Variable,
-			
+			Value : c.Type,
 		}
 	} else {
 		println("Unimplemented feature found!")
+	}
+}
+
+func (i *Interpreter) interpretCall(identifier string, params ast.Expr) {
+	if identifier == "yaz" {
+		i.print(params)
+	} else if identifier == "oku" {
+		i.get(params)
 	}
 }
 
@@ -96,10 +100,6 @@ func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlo
 	default: 
 		println("Unimplemented feature found!")
 	}
-}
-
-func (i *Interpreter) interpretCall(identifier string, params ast.Expr) {
-
 }
 
 func (i *Interpreter) print(params []ast.Expr) {
