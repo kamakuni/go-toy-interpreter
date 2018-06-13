@@ -31,7 +31,7 @@ func NewInterpreter(p parser.Parser) Interpreter {
 	}
 }
 
-func (i *Interpreter) run() {
+func (i *Interpreter) Run() {
 	node := i.Ast.Node
 	i.runBlock(node)
 }

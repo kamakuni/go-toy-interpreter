@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/kamakuni/go-toy-interpreter/interpreter"
 	"github.com/kamakuni/go-toy-interpreter/lexer"
+	"github.com/kamakuni/go-toy-interpreter/parser"
 	"io/ioutil"
 	"os"
 )
@@ -10,7 +12,7 @@ import (
 func main() {
 	// Try to get file from arguments.
 	// If given run this file, otherwise run "src/test/main.c"
-	var path = "src/test/main.c"
+	var path = "test.txt"
 	fmt.Println(os.Args)
 
 	// For custom source file for interpreting.
@@ -25,6 +27,11 @@ func main() {
 	if err != nil {
 		panic("couldn't open file")
 	}
-	ts := lexer.CreateTokenStream("this is codes")
-	fmt.Println(ts)
+	// Get Tokens from the Lexer Module
+	ts := lexer.CreateTokenStream(string(data))
+	// Creating a new Parser instance for AST.
+	parser := parser.CreateParser(ts, nil)
+	// Creating an interpreter module for program.
+	program := interpreter.NewInterpreter(parser)
+	program.Run()
 }
