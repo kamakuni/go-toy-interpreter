@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/kamakuni/go-toy-interpreter/ast"
 	"github.com/kamakuni/go-toy-interpreter/lexer"
+	"math"
 )
 
 type Parser struct {
@@ -258,12 +259,12 @@ func (p *Parser) solveRpn(rpn []RPNValue) float64 {
 
 	for index, value := range rpn {
 		if value.Type == Number {
-			valStack = append(valStack, value.Value)
+			valStack = append(valStack, value.Value.(float64))
 		} else if value.Type == Operator {
 			stackLength := len(valStack)
 			if stackLength >= 2 {
-				first, valStack = pop(valStack)
-				second, valStack = pop(valStack)
+				first, valStack := pop(valStack)
+				second, valStack := pop(valStack)
 				switch value.Value {
 				case lexer.Plus:
 					valStack = append(valStack, second+first)
@@ -274,7 +275,7 @@ func (p *Parser) solveRpn(rpn []RPNValue) float64 {
 				case lexer.Divide:
 					valStack = append(valStack, second/first)
 				case lexer.Mod:
-					valStack = append(valStack, second%first)
+					valStack = append(valStack, math.Mod(second, first))
 				default:
 					p.unexpectedToken(p.tokenToString(x))
 				}
@@ -495,7 +496,7 @@ func (p *Parser) parseCall(identifier string) interface{} {
 
 }
 
-func pop(slice []interface{}) (interface{}, []interface{}) {
+func pop(slice []float64) (float64, []float64) {
 	ans := src[len(slice)-1]
 	slice = slice[:len(slice)-1]
 	return ans, slice
