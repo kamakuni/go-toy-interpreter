@@ -16,16 +16,23 @@ type Parser struct {
 }
 
 type RPNValue struct {
-	Type  RPNType
 	Value interface{}
 }
 
-type RPNType int
+/*type RPNType int
 
 const (
 	Operator RPNType = iota
 	Number
-)
+)*/
+
+type Operator struct {
+	Value lexer.TokenType
+}
+
+type Number struct {
+	Value float64
+}
 
 func CreateParser(tokenStream lexer.TokenStream, span lexer.Span) Parser {
 	tokenCount := len(tokenStream.Tokens)
@@ -202,7 +209,7 @@ func (p *Parser) calculate(identifier string) interface{} {
 	for {
 		if p.eatToken("Number") {
 			// Get first number
-			rpn = append(rpn, RPNValue{Type: Number, Value: p.getCurrentNumber()})
+			rpn = append(rpn, RPNValue{Value: Number{Value: p.getCurrentNumber()}})
 			waitExp = false
 		} else if waitExp {
 			// If number is not set break the loop
@@ -214,7 +221,7 @@ func (p *Parser) calculate(identifier string) interface{} {
 			for stackLen > 0 &&
 				opPrecedences[p.Token.TokenType] <
 					opPrecedences[operatorStack[stackLen-1]] {
-				rpn = append(rpn, RPNValue{Type: Operator, Value: operatorStack[stackLen-1]})
+				rpn = append(rpn, RPNValue{Value: Operator{Value: operatorStack[stackLen-1]}})
 				operatorStack = append(operatorStack[:stackLen-1], operatorStack[stackLen-1+1:]...)
 				stackLen--
 			}
@@ -236,8 +243,9 @@ func (p *Parser) calculate(identifier string) interface{} {
 	// Popping stack and pushing to rpn queue.
 	for i := len(operatorStack) - 1; i >= 0; i++ {
 		rpn = append(rpn, RPNValue{
-			Type:  Operator,
-			Value: operatorStack[i],
+			Value: Operator{
+				Value: operatorStack[i],
+			},
 		}) //operatorStack[i]
 	}
 
@@ -258,14 +266,15 @@ func (p *Parser) solveRpn(rpn []RPNValue) float64 {
 	var valStack []float64
 
 	for index, value := range rpn {
-		if value.Type == Number {
-			valStack = append(valStack, value.Value.(float64))
-		} else if value.Type == Operator {
+		switch v := value.Value.(type) {
+		case Number:
+			valStack = append(valStack, v.Value)
+		case Operator:
 			stackLength := len(valStack)
 			if stackLength >= 2 {
 				first, valStack := pop(valStack)
 				second, valStack := pop(valStack)
-				switch value.Value {
+				switch v.Value {
 				case lexer.Plus:
 					valStack = append(valStack, second+first)
 				case lexer.Minus:
@@ -277,7 +286,7 @@ func (p *Parser) solveRpn(rpn []RPNValue) float64 {
 				case lexer.Mod:
 					valStack = append(valStack, math.Mod(second, first))
 				default:
-					p.unexpectedToken(p.tokenToString(x))
+					p.unexpectedToken(p.tokenToString(v.Value))
 				}
 			} else {
 				panic("Parse error in arithmetic value. Check number assignment.")
