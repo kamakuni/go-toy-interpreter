@@ -8,23 +8,23 @@ import (
 
 // like int, string or let
 type Keyword struct {
-	Value: string
+	Value string
 }
 // like variable names
 type Identifier struct {
-	Value: string
+	Value string
 }
 // Char variables, inside " ' "
 type Char struct {
-	Value: string
+	Value string
 }
 // String variables, inside quotes
 type String struct {
-	Value: string
+	Value string
 }
 // Number variable
 type Number struct {
-	Value: string
+	Value string
 }
 
 type TokenType int
