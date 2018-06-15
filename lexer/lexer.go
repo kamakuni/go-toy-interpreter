@@ -6,14 +6,35 @@ import (
 	"unicode"
 )
 
+// like int, string or let
+type Keyword struct {
+	Value: string
+}
+// like variable names
+type Identifier struct {
+	Value: string
+}
+// Char variables, inside " ' "
+type Char struct {
+	Value: string
+}
+// String variables, inside quotes
+type String struct {
+	Value: string
+}
+// Number variable
+type Number struct {
+	Value: string
+}
+
 type TokenType int
 
 const (
-	Keyword      TokenType = iota // like int string or let
+/*	Keyword      TokenType = iota // like int string or let
 	Identifier                    // like variable names
 	Char                          // Char variables inside " ' "
 	String                        // String variables inside quotes
-	Number                        // Number variable
+	Number                        // Number variable*/
 	True                          // Boolean true
 	False                         // Boolean false
 	Equals                        // =
