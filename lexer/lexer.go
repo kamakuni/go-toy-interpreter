@@ -70,6 +70,10 @@ func (c Char) String() string {
 	return "Char"
 }
 
+func (s String) String() string {
+	return "String"
+}
+
 /*	case Char:
 		return "Char"
 	case String:
@@ -79,10 +83,6 @@ func (c Char) String() string {
 */
 func (t TokenType) String() string {
 	switch t {
-	case Char:
-		return "Char"
-	case String:
-		return "String"
 	case Number:
 		return "Number"
 	case True:
