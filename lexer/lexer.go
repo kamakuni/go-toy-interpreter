@@ -66,6 +66,10 @@ func (i Identifier) String() string {
 	return "Identifier"
 }
 
+func (c Char) String() string {
+	return "Char"
+}
+
 /*	case Char:
 		return "Char"
 	case String:
