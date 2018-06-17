@@ -58,12 +58,23 @@ const (
 	EOF                           // End of File
 )
 
+func (k Keyword) String() string {
+	return "Keyword"
+}
+
+func (i Identifier) String() string {
+	return "Identifier"
+}
+
+/*	case Char:
+		return "Char"
+	case String:
+		return "String"
+	case Number:
+		return "Number"
+*/
 func (t TokenType) String() string {
 	switch t {
-	case Keyword:
-		return "Keyword"
-	case Identifier:
-		return "Identifier"
 	case Char:
 		return "Char"
 	case String:
