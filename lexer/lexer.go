@@ -74,17 +74,12 @@ func (s String) String() string {
 	return "String"
 }
 
-/*	case Char:
-		return "Char"
-	case String:
-		return "String"
-	case Number:
-		return "Number"
-*/
+func (n Number) String() string {
+	return "Number"
+}
+
 func (t TokenType) String() string {
 	switch t {
-	case Number:
-		return "Number"
 	case True:
 		return "True"
 	case False:
