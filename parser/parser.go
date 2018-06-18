@@ -90,11 +90,11 @@ func (p *Parser) eatOperator() bool {
 func (p *Parser) getCurrentNumber() float64 {
 	t, ok := p.Token.TokenType.(lexer.Number)
 	if !ok {
-		panic("Error while parsing to integer.")
+		panic("Error while parsing to float.")
 	}
 	f, err := strconv.ParseFloat(t.Value, 64)
 	if err != nil {
-		panic("Error while parsing to integer.")
+		panic("Error while parsing to float.")
 	}
 	return f
 }
@@ -176,10 +176,10 @@ func (p *Parser) parseInteger() interface{} {
 	var identifier = ""
 	// Eat Identifier
 	if p.eatToken("Identifier") {
-		if p.Token.TokenType == lexer.Identifier {
-			identifier = p.Token.Value.(string)
+		if t, ok := p.Token.TokenType.(lexer.Identifier); ok {
+			identifier = t.Value
 		} else {
-			panic("not yet implemented")
+			panic("Error while parsing to integer")
 		}
 		// Eat equal symbol (=)
 		if p.eatToken("Equals") {
