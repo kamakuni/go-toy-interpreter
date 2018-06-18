@@ -135,9 +135,9 @@ type Span struct {
 }
 
 type Token struct {
-	TokenType TokenType
+	TokenType interface{}
 	Span      *Span
-	Value     interface{}
+	/*	Value     interface{}*/
 }
 
 type TokenStream struct {
@@ -177,9 +177,8 @@ func (ts *TokenStream) Tokenize() {
 			var tmpStr = strings.ToLower(tmp)
 			if ts.isKeyword(tmpStr) {
 				tokens = append(tokens, Token{
-					TokenType: Keyword,
+					TokenType: Keyword{Value: tmpStr},
 					Span:      nil,
-					Value:     tmpStr,
 				})
 			} else if string(tmpStr) == "true" {
 				tokens = append(tokens, Token{
@@ -193,9 +192,8 @@ func (ts *TokenStream) Tokenize() {
 				})
 			} else {
 				tokens = append(tokens, Token{
-					TokenType: Identifier,
+					TokenType: Identifier{Value: tmpStr},
 					Span:      nil,
-					Value:     tmpStr,
 				})
 			}
 
@@ -206,9 +204,8 @@ func (ts *TokenStream) Tokenize() {
 				i++
 			}
 			tokens = append(tokens, Token{
-				TokenType: Number,
+				TokenType: Number{Value: tmp},
 				Span:      nil,
-				Value:     tmp,
 			})
 			// If current char is a starting of a string
 		} else if currentChar == '"' {
@@ -222,9 +219,8 @@ func (ts *TokenStream) Tokenize() {
 
 			i++
 			tokens = append(tokens, Token{
-				TokenType: String,
+				TokenType: String{Value: tmp},
 				Span:      nil,
-				Value:     tmp,
 			})
 			// If current char is a real char
 		} else if currentChar == '\'' {
@@ -232,9 +228,8 @@ func (ts *TokenStream) Tokenize() {
 			i = i + 2
 			if ts.nthChar(i) == '\'' {
 				tokens = append(tokens, Token{
-					TokenType: Char,
+					TokenType: Char{Value: tmp},
 					Span:      nil,
-					Value:     tmp,
 				})
 				i++
 			} else {
