@@ -48,7 +48,7 @@ func (p *Parser) CurrnetTokenToString() string {
 	return fmt.Sprint(p.Token.TokenType)
 }
 
-func (p *Parser) tokenToString(tokenType lexer.TokenType) string {
+func (p *Parser) tokenToString(tokenType interface{}) string {
 	return fmt.Sprint(tokenType)
 }
 
