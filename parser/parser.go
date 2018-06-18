@@ -5,6 +5,7 @@ import (
 	"github.com/kamakuni/go-toy-interpreter/ast"
 	"github.com/kamakuni/go-toy-interpreter/lexer"
 	"math"
+	"strconv"
 )
 
 type Parser struct {
@@ -87,12 +88,15 @@ func (p *Parser) eatOperator() bool {
 }
 
 func (p *Parser) getCurrentNumber() float64 {
-	switch p.Token.TokenType {
-	case lexer.Number:
-		return p.Token.Value.(float64)
-	default:
+	t, ok := p.Token.TokenType.(lexer.Number)
+	if !ok {
 		panic("Error while parsing to integer.")
 	}
+	f, err := strconv.ParseFloat(t.Value, 64)
+	if err != nil {
+		panic("Error while parsing to integer.")
+	}
+	return f
 }
 
 /*
