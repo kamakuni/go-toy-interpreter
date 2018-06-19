@@ -307,16 +307,16 @@ func (p *Parser) parseString() interface{} {
 
 	// Eat identifier
 	if p.eatToken("Identifier") {
-		if p.Token.TokenType == lexer.Identifier {
-			identifier = p.Token.Value
+		if i, ok := p.Token.TokenType.(lexer.Identifier); ok {
+			identifier = i.Value
 		} else {
 			panic("not yet implemented")
 		}
 
 		if p.eatToken("Equals") {
 			if p.eatToken("String") {
-				if p.Token.TokenType == lexer.String {
-					str = p.Token.Value
+				if s, ok := p.Token.TokenType.(lexer.String); ok {
+					str = s.Value
 
 					expr = ast.Assign{
 						Value: identifier,
