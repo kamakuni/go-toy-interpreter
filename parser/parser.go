@@ -221,16 +221,16 @@ func (p *Parser) calculate(identifier string) interface{} {
 		} else if p.eatOperator() {
 			// If eat an operator
 			var stackLen = len(operatorStack)
-
+			tokenType := p.Token.TokenType.(lexer.TokenType)
 			for stackLen > 0 &&
-				opPrecedences[p.Token.TokenType] <
+				opPrecedences[tokenType] <
 					opPrecedences[operatorStack[stackLen-1]] {
 				rpn = append(rpn, RPNValue{Value: Operator{Value: operatorStack[stackLen-1]}})
 				operatorStack = append(operatorStack[:stackLen-1], operatorStack[stackLen-1+1:]...)
 				stackLen--
 			}
 
-			operatorStack = append(operatorStack, p.Token.TokenType)
+			operatorStack = append(operatorStack, tokenType)
 			waitExp = true
 		} else {
 			// This means expression is ended and we need a semicolon check.
