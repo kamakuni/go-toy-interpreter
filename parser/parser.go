@@ -99,7 +99,6 @@ func (p *Parser) getCurrentNumber() float64 {
 	return f
 }
 
-/*
 func (p *Parser) Parse() ast.Expr {
 	var block []ast.Expr
 
@@ -170,7 +169,6 @@ func (p *Parser) Parse() ast.Expr {
 
 	}
 }
-*/
 
 func (p *Parser) parseInteger() interface{} {
 	var identifier = ""
@@ -392,15 +390,15 @@ func (p *Parser) parseBool() interface{} {
 func (p *Parser) parseIf() interface{} {
 	var conditionIdentifier = ""
 	var ifBlock = ast.Expr{
-		Node: ast.Nil,
+		Node: ast.Nil{},
 	}
 	var elseBlock interface{}
 
 	// Eat identifier
 	if p.eatToken("LParen") {
 		if p.eatToken("Identifier") {
-			if p.Token.TokenType == lexer.Identifier {
-				conditionIdentifier = p.Token.Value
+			if i, ok := p.Token.TokenType.(lexer.Identifier); ok {
+				conditionIdentifier = i.Value
 			} else {
 				panic("not yet implemented")
 			}
@@ -414,7 +412,7 @@ func (p *Parser) parseIf() interface{} {
 			if p.eatToken("LBrace") {
 
 				p.advanceToken()
-				if_block = self.parse()
+				if_block = p.parse()
 
 				if p.TokenStream.Tokens[p.CurrentIndex+1].TokenType == lexer.Identifier {
 					if p.TokenStream.Tokens[p.CurrentIndex+1].Value == "else" {
