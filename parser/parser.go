@@ -113,60 +113,56 @@ func (p *Parser) Parse() ast.Expr {
 
 		// Determine the parse type for current or (if not enough) next token.
 		var stmt ast.Expr
-		switch p.Token.TokenType {
+		switch t := p.Token.TokenType.(type) {
 		case lexer.Keyword:
-			if p.Token.TokenType == "number" {
-				stmt = Expr{
-					node: p.ParseInteger(),
+			if t.Value == "number" {
+				stmt = ast.Expr{
+					Node: p.parseInteger(),
+				}
+			} else if t.Value == "string" {
+				stmt = ast.Expr{
+					Node: p.parseString(),
+				}
+			} else if t.Value == "bool" {
+				stmt = ast.Expr{
+					Node: p.parseBool(),
+				}
+			} else if t.Value == "if" {
+				stmt = ast.Expr{
+					Node: p.parseIf(),
 				}
 			}
-			TokenType::Keyword(ref x) if x == "string" => {
-				Box::new(Expr {
-					span: None,
-					node: self.parse_string(),
-				})
-			}
-			TokenType::Keyword(ref x) if x == "bool" => {
-				Box::new(Expr {
-					span: None,
-					node: self.parse_bool(),
-				})
-			}
-			TokenType::Identifier(ref x) if x == "if" => {
-				Box::new(Expr {
-					span: None,
-					node: self.parse_if(),
-				})
-			}
-			TokenType::Identifier(ref x) => {
-				// Eat LParen
-				if self.eat_token("LParen") {
-					Box::new(Expr {
-						span: None,
-						node: self.parse_call(x.clone()),
-					})
-				} else {
-					self.unexpected_token("LParen");
-					unimplemented!();
+		case lexer.Identifier:
+			// Eat LParen
+			if p.eatToken("LParen") {
+				stmt = ast.Expr{
+					Node: p.parseCall(t.Value),
 				}
+			} else {
+				p.unexpectedToken("LParen")
+				//unimplemented!();
 			}
-			TokenType::RBrace => break,
-			TokenType::EOF => {
-				block.push(Box::new(Expr {
-					span: None,
-					node: Expr_::EOF,
-				}));
-				break;
-			}
-			_ => {
-				self.unexpected_token(&self.token_to_string(&self.token.token_type));
-				Box::new(Expr {
-					span: None,
-					node: Expr_::Nil,
+		case lexer.TokenType:
+			if t == lexer.RBrace {
+				break
+			} else if t == lexer.EOF {
+				block = append(block, ast.Expr{
+					Node: ast.EOF{},
 				})
+				break
 			}
-		};
+		default:
+			p.unexpectedToken(p.tokenToString(t))
+			stmt = ast.Expr{
+				Node: ast.Nil{},
+			}
+		}
 
+	}
+	return ast.Expr{
+		Node: ast.Block{
+			Exprs: block,
+		},
 	}
 }
 
