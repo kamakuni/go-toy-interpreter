@@ -346,23 +346,23 @@ func (p *Parser) parseString() interface{} {
 
 func (p *Parser) parseBool() interface{} {
 	var identifier = ""
-	var value bool
+	var boolVal bool
 	var expr interface{}
 
 	// Eat identifier
 	if p.eatToken("Identifier") {
-		if p.Token.TokenType == lexer.Identifier {
-			identifier = p.Token.Value
+		if i, ok := p.Token.TokenType.(lexer.Identifier); ok {
+			identifier = i.Value
 		} else {
 			panic("not yet implemented")
 		}
 
 		if p.eatToken("Equals") {
 			if p.eatToken("True") || p.eatToken("False") {
-				if p.Token.TokenType == lexer.True {
-					value = true
-				} else if p.Token.TokenType == lexer.False {
-					value = false
+				if t, ok := p.Token.TokenType.(lexer.TokenType); ok && t == lexer.True {
+					boolVal = true
+				} else if f, ok := p.Token.TokenType.(lexer.TokenType); ok && f == lexer.False {
+					boolVal = false
 				} else {
 					panic("not yet implemented")
 				}
@@ -370,8 +370,8 @@ func (p *Parser) parseBool() interface{} {
 					Value: identifier,
 					Expr: ast.Expr{
 						Node: ast.Constant{
-							Type: ast.String{
-								Value: str,
+							Type: ast.Bool{
+								Value: boolVal,
 							},
 						},
 					},
