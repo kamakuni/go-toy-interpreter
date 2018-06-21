@@ -388,7 +388,7 @@ func (p *Parser) parseIf() interface{} {
 	var ifBlock = ast.Expr{
 		Node: ast.Nil{},
 	}
-	var elseBlock interface{}
+	var elseBlock ast.Expr
 
 	// Eat identifier
 	if p.eatToken("LParen") {
@@ -408,27 +408,28 @@ func (p *Parser) parseIf() interface{} {
 			if p.eatToken("LBrace") {
 
 				p.advanceToken()
-				if_block = p.parse()
+				ifBlock = p.Parse()
 
-				if p.TokenStream.Tokens[p.CurrentIndex+1].TokenType == lexer.Identifier {
-					if p.TokenStream.Tokens[p.CurrentIndex+1].Value == "else" {
-
-					} else {
-						elseBlock = nil
-					}
-					if x == "else" {
+				if i, ok := p.TokenStream.Tokens[p.CurrentIndex+1].TokenType.(lexer.Identifier); ok {
+					if i.Value == "else" {
 						p.advanceToken()
 
 						// Eat left brace for start of the else block
 						if p.eatToken("LBrace") {
 							p.advanceToken()
-							elseBlock = p.parse()
+							elseBlock = p.Parse()
 						} else {
 							p.unexpectedToken("LBrace")
 						}
+					} else {
+						elseBlock = ast.Expr{
+							Node: nil,
+						}
 					}
 				} else {
-					elseBlock = nil
+					elseBlock = ast.Expr{
+						Node: nil,
+					}
 				}
 			} else {
 				p.unexpectedToken("LBrace")
@@ -439,7 +440,7 @@ func (p *Parser) parseIf() interface{} {
 	} else {
 		p.unexpectedToken("LParen")
 	}
-	expr = ast.If{
+	return ast.If{
 		Expr1: ast.Expr{
 			Node: ast.Variable{
 				Value: conditionIdentifier,
@@ -448,7 +449,6 @@ func (p *Parser) parseIf() interface{} {
 		Expr2: ifBlock,
 		Expr3: elseBlock,
 	}
-	return expr
 }
 
 func (p *Parser) parseCall(identifier string) interface{} {
