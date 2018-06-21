@@ -512,7 +512,7 @@ func (p *Parser) parseCall(identifier string) interface{} {
 }
 
 func pop(slice []float64) (float64, []float64) {
-	ans := src[len(slice)-1]
+	ans := slice[len(slice)-1]
 	slice = slice[:len(slice)-1]
 	return ans, slice
 }
