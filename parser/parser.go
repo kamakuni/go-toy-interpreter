@@ -252,7 +252,7 @@ func (p *Parser) calculate(identifier string) interface{} {
 		Value: identifier,
 		Expr: ast.Expr{
 			Node: ast.Constant{
-				Type: ast.Number{
+				Value: ast.Number{
 					Value: p.solveRpn(rpn),
 				},
 			},
@@ -316,7 +316,7 @@ func (p *Parser) parseString() interface{} {
 						Value: identifier,
 						Expr: ast.Expr{
 							Node: ast.Constant{
-								Type: ast.String{
+								Value: ast.String{
 									Value: str,
 								},
 							},
@@ -364,7 +364,7 @@ func (p *Parser) parseBool() interface{} {
 					Value: identifier,
 					Expr: ast.Expr{
 						Node: ast.Constant{
-							Type: ast.Bool{
+							Value: ast.Bool{
 								Value: boolVal,
 							},
 						},
