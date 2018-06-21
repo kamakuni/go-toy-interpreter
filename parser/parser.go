@@ -454,33 +454,41 @@ func (p *Parser) parseIf() interface{} {
 func (p *Parser) parseCall(identifier string) interface{} {
 	var str = ""
 	var expr interface{}
-	var params []interface{}
+	var params []ast.Expr
 
 	// Do While loop for paramaters
 	for {
 		// Eat String
 		if p.eatToken("String") {
 			// Create an expression and return it.
-			if p.Token.TokenType == lexer.String {
-				str = p.Token.Value
+			if s, ok := p.Token.TokenType.(lexer.String); ok {
+				str = s.Value
 			} else {
 				panic("not yet implemented")
 			}
+			params = append(params, ast.Expr{
+				Node: ast.Constant{
+					Value: ast.String{
+						Value: str,
+					},
+				},
+			})
 			// Eat identifer
 		} else if p.eatToken("Identifier") {
 			// Create an expression and return it.
-			if p.Token.TokenType == lexer.Identifier {
-				str = p.Token.Value
+			if i, ok := p.Token.TokenType.(lexer.Identifier); ok {
+				str = i.Value
 			} else {
 				panic("not yet implemented")
 			}
 
 			params = append(params, ast.Expr{
-				Node:  lexer.Variable,
-				Value: str,
+				Node: ast.Variable{
+					Value: str,
+				},
 			})
 		} else {
-			panic("not yet implemented")
+			p.unexpectedToken("Identifier or String")
 		}
 
 		// Logical check for do while loop

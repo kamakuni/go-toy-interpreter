@@ -89,7 +89,7 @@ type Variable struct {
 // Constant expression
 type Constant struct {
 	Expr_
-	Type interface{}
+	Value interface{}
 }
 
 // Assignment expression
