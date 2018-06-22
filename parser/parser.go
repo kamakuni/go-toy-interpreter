@@ -157,7 +157,7 @@ func (p *Parser) Parse() ast.Expr {
 				Node: ast.Nil{},
 			}
 		}
-
+		block = append(block, stmt)
 	}
 	return ast.Expr{
 		Node: ast.Block{
