@@ -263,7 +263,7 @@ func (p *Parser) calculate(identifier string) interface{} {
 func (p *Parser) solveRpn(rpn []RPNValue) float64 {
 	var valStack []float64
 
-	for index, value := range rpn {
+	for _, value := range rpn {
 		switch v := value.Value.(type) {
 		case Number:
 			valStack = append(valStack, v.Value)
