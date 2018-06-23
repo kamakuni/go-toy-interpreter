@@ -27,7 +27,7 @@ type Interpreter struct {
 
 func NewInterpreter(p parser.Parser) Interpreter {
 	return Interpreter{
-		Ast: i.Parse(),
+		Ast: p.Parse(),
 	}
 }
 
