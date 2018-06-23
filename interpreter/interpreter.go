@@ -11,7 +11,7 @@ import (
 type SymbolType int
 
 const (
-	Variable = iota SymbolType
+	Variable SymbolType = iota
 	Function
 )
 
@@ -57,10 +57,10 @@ func (i *Interpreter) runBlock(expr interface{}) {
 }
 
 func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
-	if c, ok == ast.Constant.(value.Node); ok {
-		i.SymbolTable[identifier] = Symbol {
-			SymbolType : SymbolType.Variable,
-			Value : c.Type,
+	if c, ok := ast.Constant.(value.Node); ok {
+		i.SymbolTable[identifier] = Symbol{
+			SymbolType: SymbolType.Variable,
+			Value:      c.Type,
 		}
 	} else {
 		println("Unimplemented feature found!")
@@ -78,11 +78,11 @@ func (i *Interpreter) interpretCall(identifier string, params ast.Expr) {
 func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlock ast.Expr) {
 	var variable = Symbol{
 		SymbolType: SymbolType.Variable,
-		Value: ast.String,
+		Value:      ast.String,
 	}
 
 	// Get if condition
-	if n,ok = identifier.Node.(ast.Variable); ok {
+	if n, ok = identifier.Node.(ast.Variable); ok {
 		i.SymbolTable[n]
 	}
 
@@ -90,26 +90,27 @@ func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlo
 	switch v := variable.Value.(type) {
 	case ast.Bool:
 		// If bool value is true then execute if block.
-		if v.Value {			
+		if v.Value {
 			i.runBlock(ifBlock)
-		// If bool value is false and else block is exist, execute else block.
-		} else if  elseBlock != nil {
+			// If bool value is false and else block is exist, execute else block.
+		} else if elseBlock != nil {
 			i.runBlock(elseBlock)
 		}
-	case ast.String: panic("Uninitilized variable found!")
-	default: 
+	case ast.String:
+		panic("Uninitilized variable found!")
+	default:
 		println("Unimplemented feature found!")
 	}
 }
 
 func (i *Interpreter) print(params []ast.Expr) {
-	var output := ""
+	var output = ""
 	for i, param := range params {
-		switch n := param.Node.(type){
+		switch n := param.Node.(type) {
 		case ast.Constant:
 			switch t := n.Type.(type) {
 			case ast.String:
-				output += t.Value 
+				output += t.Value
 			case ast.Number:
 				output += fmt.Sprint(t.Value)
 			case ast.Bool:
@@ -131,15 +132,15 @@ func (i *Interpreter) get(params []ast.Expr) {
 	for i, param := range params {
 		reader := bufio.NewReader(os.Stdin)
 		line, _ := reader.ReadString('\n')
-		switch v := param.Node.(type){
-		case ast.Variable: 
+		switch v := param.Node.(type) {
+		case ast.Variable:
 			i.SymbolTable[v.Value] = Symbol{
-				SymbolType:Variable,
-				Value:ast.String{
+				SymbolType: Variable,
+				Value: ast.String{
 					Value: line,
 				},
 			}
-		default: 
+		default:
 			println("Parameter requires a variable identifier!")
 		}
 	}
