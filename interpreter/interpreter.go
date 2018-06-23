@@ -36,26 +36,6 @@ func (i *Interpreter) Run() {
 	i.runBlock(node)
 }
 
-func (i *Interpreter) runBlock(expr interface{}) {
-	if b, ok := expr.(ast.Block); ok {
-		for i, line := range b.Exprs {
-			if a, ok := line.Node.(ast.Assign); ok {
-				i.interpretAssign(identifier, value)
-			} else if c, ok := line.Node.(ast.Call); ok {
-				i.interpretCall(identifier, params)
-			} else if i, ok := line.Node.(ast.If); ok {
-				i.interpretIf(identifier, if_block, else_block)
-			} else if e, ok := line.Node.(ast.EOF); ok {
-				println("Program has ended.")
-			} else {
-				println("Unimplemented feature found!")
-			}
-		}
-	} else {
-		println("Block not found")
-	}
-}
-
 func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
 	if c, ok := ast.Constant.(value.Node); ok {
 		i.SymbolTable[identifier] = Symbol{
@@ -67,7 +47,7 @@ func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
 	}
 }
 
-func (i *Interpreter) interpretCall(identifier string, params ast.Expr) {
+func (i *Interpreter) interpretCall(identifier string, params []ast.Expr) {
 	if identifier == "yaz" {
 		i.print(params)
 	} else if identifier == "oku" {
@@ -100,6 +80,26 @@ func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlo
 		panic("Uninitilized variable found!")
 	default:
 		println("Unimplemented feature found!")
+	}
+}
+
+func (i *Interpreter) runBlock(expr interface{}) {
+	if b, ok := expr.(ast.Block); ok {
+		for i, line := range b.Exprs {
+			if a, ok := line.Node.(ast.Assign); ok {
+				i.interpretAssign(identifier, value)
+			} else if c, ok := line.Node.(ast.Call); ok {
+				i.interpretCall(identifier, params)
+			} else if i, ok := line.Node.(ast.If); ok {
+				i.interpretIf(identifier, if_block, else_block)
+			} else if e, ok := line.Node.(ast.EOF); ok {
+				println("Program has ended.")
+			} else {
+				println("Unimplemented feature found!")
+			}
+		}
+	} else {
+		println("Block not found")
 	}
 }
 
