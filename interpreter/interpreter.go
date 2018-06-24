@@ -8,12 +8,13 @@ import (
 	"os"
 )
 
-type SymbolType int
+type Variable struct {
+	Value interface{}
+}
 
-const (
-	Variable SymbolType = iota
-	Function
-)
+type Function struct {
+	Value interface{}
+}
 
 type Symbol struct {
 	SymbolType interface{}
@@ -57,12 +58,12 @@ func (i *Interpreter) interpretCall(identifier string, params []ast.Expr) {
 
 func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlock ast.Expr) {
 	var variable = Symbol{
-		SymbolType: SymbolType.Variable,
-		Value:      ast.String,
+		SymbolType: Variable,
+		Value:      ast.String{},
 	}
 
 	// Get if condition
-	if n, ok = identifier.Node.(ast.Variable); ok {
+	if n, ok := identifier.Node.(Variable); ok {
 		i.SymbolTable[n]
 	}
 
@@ -73,7 +74,7 @@ func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlo
 		if v.Value {
 			i.runBlock(ifBlock)
 			// If bool value is false and else block is exist, execute else block.
-		} else if elseBlock != nil {
+		} else if elseBlock.Node != nil {
 			i.runBlock(elseBlock)
 		}
 	case ast.String:
