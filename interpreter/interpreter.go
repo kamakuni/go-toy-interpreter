@@ -37,10 +37,10 @@ func (i *Interpreter) Run() {
 }
 
 func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
-	if c, ok := ast.Constant.(value.Node); ok {
+	if c, ok := value.Node.(ast.Constant); ok {
 		i.SymbolTable[identifier] = Symbol{
-			SymbolType: SymbolType.Variable,
-			Value:      c.Type,
+			SymbolType: Variable,
+			Value:      c.Value,
 		}
 	} else {
 		println("Unimplemented feature found!")
