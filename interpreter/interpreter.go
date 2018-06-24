@@ -9,7 +9,7 @@ import (
 )
 
 type Variable struct {
-	Value interface{}
+	Value string
 }
 
 type Function struct {
@@ -40,7 +40,7 @@ func (i *Interpreter) Run() {
 func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
 	if c, ok := value.Node.(ast.Constant); ok {
 		i.SymbolTable[identifier] = Symbol{
-			SymbolType: Variable,
+			SymbolType: Variable{},
 			Value:      c.Value,
 		}
 	} else {
@@ -57,14 +57,11 @@ func (i *Interpreter) interpretCall(identifier string, params []ast.Expr) {
 }
 
 func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlock ast.Expr) {
-	var variable = Symbol{
-		SymbolType: Variable,
-		Value:      ast.String{},
-	}
+	var variable Symbol
 
 	// Get if condition
 	if n, ok := identifier.Node.(Variable); ok {
-		i.SymbolTable[n]
+		variable = i.SymbolTable[n.Value]
 	}
 
 	// If condition is a bool value interpret if, otherwise display an error.
