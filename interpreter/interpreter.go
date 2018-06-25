@@ -83,14 +83,14 @@ func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlo
 
 func (i *Interpreter) runBlock(expr interface{}) {
 	if b, ok := expr.(ast.Block); ok {
-		for index, line := range b.Exprs {
+		for _, line := range b.Exprs {
 			if a, ok := line.Node.(ast.Assign); ok {
 				i.interpretAssign(a.Value, a.Expr)
 			} else if c, ok := line.Node.(ast.Call); ok {
 				i.interpretCall(c.Value, c.Exprs)
 			} else if if_node, ok := line.Node.(ast.If); ok {
 				i.interpretIf(if_node.Expr1, if_node.Expr2, if_node.Expr3)
-			} else if e, ok := line.Node.(ast.EOF); ok {
+			} else if _, ok := line.Node.(ast.EOF); ok {
 				println("Program has ended.")
 			} else {
 				println("Unimplemented feature found!")
@@ -103,10 +103,10 @@ func (i *Interpreter) runBlock(expr interface{}) {
 
 func (i *Interpreter) print(params []ast.Expr) {
 	var output = ""
-	for i, param := range params {
+	for _, param := range params {
 		switch n := param.Node.(type) {
 		case ast.Constant:
-			switch t := n.Type.(type) {
+			switch t := n.Value.(type) {
 			case ast.String:
 				output += t.Value
 			case ast.Number:
@@ -115,8 +115,8 @@ func (i *Interpreter) print(params []ast.Expr) {
 				output += fmt.Sprint(t.Value)
 			}
 		case ast.Variable:
-			if p.SymbolTable[n.Value] != nil {
-				output += i.SymbolTable[n.Value].(string)
+			if v, ok := i.SymbolTable[n.Value].Value.(string); ok {
+				output += v
 			} else {
 				println("%v variable not found!", n.Value)
 			}
@@ -127,14 +127,13 @@ func (i *Interpreter) print(params []ast.Expr) {
 }
 
 func (i *Interpreter) get(params []ast.Expr) {
-	for i, param := range params {
+	for _, param := range params {
 		reader := bufio.NewReader(os.Stdin)
 		line, _ := reader.ReadString('\n')
 		switch v := param.Node.(type) {
 		case ast.Variable:
 			i.SymbolTable[v.Value] = Symbol{
-				SymbolType: Variable,
-				Value: ast.String{
+				SymbolType: Variable{
 					Value: line,
 				},
 			}
