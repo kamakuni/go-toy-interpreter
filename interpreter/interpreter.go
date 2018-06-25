@@ -83,13 +83,13 @@ func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlo
 
 func (i *Interpreter) runBlock(expr interface{}) {
 	if b, ok := expr.(ast.Block); ok {
-		for i, line := range b.Exprs {
+		for index, line := range b.Exprs {
 			if a, ok := line.Node.(ast.Assign); ok {
-				i.interpretAssign(identifier, value)
+				i.interpretAssign(a.Value, a.Expr)
 			} else if c, ok := line.Node.(ast.Call); ok {
-				i.interpretCall(identifier, params)
-			} else if i, ok := line.Node.(ast.If); ok {
-				i.interpretIf(identifier, if_block, else_block)
+				i.interpretCall(c.Value, c.Exprs)
+			} else if if_node, ok := line.Node.(ast.If); ok {
+				i.interpretIf(if_node.Expr1, if_node.Expr2, if_node.Expr3)
 			} else if e, ok := line.Node.(ast.EOF); ok {
 				println("Program has ended.")
 			} else {
