@@ -30,7 +30,7 @@ func main() {
 	// Get Tokens from the Lexer Module
 	ts := lexer.CreateTokenStream(string(data))
 	// Creating a new Parser instance for AST.
-	parser := parser.CreateParser(ts, nil)
+	parser := parser.CreateParser(ts, lexer.Span{})
 	// Creating an interpreter module for program.
 	program := interpreter.NewInterpreter(parser)
 	program.Run()
