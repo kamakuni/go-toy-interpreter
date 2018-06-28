@@ -106,7 +106,7 @@ func (p *Parser) Parse() ast.Expr {
 	for p.CurrentIndex < p.TokenCount {
 
 		// Ignore the current token if it is useless.
-		if p.Token.TokenType == lexer.Comment {
+		if t, ok := p.Token.TokenType.(lexer.TokenType); ok && t == lexer.Comment {
 			p.advanceToken()
 			continue
 		}
