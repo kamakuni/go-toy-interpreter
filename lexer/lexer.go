@@ -358,6 +358,7 @@ func (ts *TokenStream) Tokenize() {
 			tokens = append(tokens, Token{
 				TokenType: Semicolon,
 			})
+			i++
 			// Else throw an exception
 		} else {
 			ts.unexpectedToken(currentChar, i)
