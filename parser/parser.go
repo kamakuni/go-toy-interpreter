@@ -102,6 +102,7 @@ func (p *Parser) getCurrentNumber() float64 {
 func (p *Parser) Parse() ast.Expr {
 	var block []ast.Expr
 
+FOR_LABEL:
 	// Read all tokens and create statements, then push it to the block.
 	for p.CurrentIndex < p.TokenCount {
 
@@ -144,12 +145,12 @@ func (p *Parser) Parse() ast.Expr {
 			}
 		case lexer.TokenType:
 			if t == lexer.RBrace {
-				break
+				break FOR_LABEL
 			} else if t == lexer.EOF {
 				block = append(block, ast.Expr{
 					Node: ast.EOF{},
 				})
-				break
+				break FOR_LABEL
 			}
 		default:
 			p.unexpectedToken(p.tokenToString(t))
