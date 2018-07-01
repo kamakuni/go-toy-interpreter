@@ -28,7 +28,8 @@ type Interpreter struct {
 
 func NewInterpreter(p parser.Parser) Interpreter {
 	return Interpreter{
-		Ast: p.Parse(),
+		Ast:         p.Parse(),
+		SymbolTable: map[string]Symbol{},
 	}
 }
 
