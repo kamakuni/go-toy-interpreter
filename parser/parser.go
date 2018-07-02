@@ -493,7 +493,7 @@ func (p *Parser) parseCall(identifier string) interface{} {
 		}
 
 		// Logical check for do while loop
-		if p.eatToken("Comma") {
+		if !p.eatToken("Comma") {
 			break
 		}
 	}
