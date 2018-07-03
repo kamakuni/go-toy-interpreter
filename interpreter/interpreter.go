@@ -125,6 +125,7 @@ func (i *Interpreter) print(params []ast.Expr) {
 			println("Other type of node found!")
 		}
 	}
+	fmt.Println(output)
 }
 
 func (i *Interpreter) get(params []ast.Expr) {
