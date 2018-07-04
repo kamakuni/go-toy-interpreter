@@ -240,7 +240,7 @@ func (p *Parser) calculate(identifier string) interface{} {
 	}
 
 	// Popping stack and pushing to rpn queue.
-	for i := len(operatorStack) - 1; i >= 0; i++ {
+	for i := len(operatorStack) - 1; i >= 0; i-- {
 		rpn = append(rpn, RPNValue{
 			Value: Operator{
 				Value: operatorStack[i],
