@@ -1,3 +1,2 @@
-string str = "12345test";
-number num = 1 + 2;
-yaz(num);
+bool test = true;
+yaz(test);

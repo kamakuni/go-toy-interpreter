@@ -118,8 +118,10 @@ func (i *Interpreter) print(params []ast.Expr) {
 		case ast.Variable:
 			if s, ok := i.SymbolTable[n.Value].Value.(ast.String); ok {
 				output += s.Value
-			} else if n, ok := i.SymbolTable[n.Value].Value.(ast.Number); ok {
-				output += fmt.Sprint(n.Value)
+			} else if num, ok := i.SymbolTable[n.Value].Value.(ast.Number); ok {
+				output += fmt.Sprint(num.Value)
+			} else if b, ok := i.SymbolTable[n.Value].Value.(ast.Bool); ok {
+				output += fmt.Sprint(b.Value)
 			} else {
 				println("%v variable not found!", n.Value)
 			}
