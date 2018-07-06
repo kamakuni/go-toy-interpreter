@@ -89,8 +89,8 @@ func (i *Interpreter) runBlock(expr interface{}) {
 				i.interpretAssign(a.Value, a.Expr)
 			} else if c, ok := line.Node.(ast.Call); ok {
 				i.interpretCall(c.Value, c.Exprs)
-			} else if if_node, ok := line.Node.(ast.If); ok {
-				i.interpretIf(if_node.Expr1, if_node.Expr2, if_node.Expr3)
+			} else if ifNode, ok := line.Node.(ast.If); ok {
+				i.interpretIf(ifNode.Expr1, ifNode.Expr2, ifNode.Expr3)
 			} else if _, ok := line.Node.(ast.EOF); ok {
 				println("Program has ended.")
 			} else {

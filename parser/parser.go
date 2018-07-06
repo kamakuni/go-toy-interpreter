@@ -128,20 +128,22 @@ FOR_LABEL:
 				stmt = ast.Expr{
 					Node: p.parseBool(),
 				}
-			} else if t.Value == "if" {
+			}
+		case lexer.Identifier:
+			if t.Value == "if" {
 				stmt = ast.Expr{
 					Node: p.parseIf(),
 				}
-			}
-		case lexer.Identifier:
-			// Eat LParen
-			if p.eatToken("LParen") {
-				stmt = ast.Expr{
-					Node: p.parseCall(t.Value),
-				}
 			} else {
-				p.unexpectedToken("LParen")
-				//unimplemented!();
+				// Eat LParen
+				if p.eatToken("LParen") {
+					stmt = ast.Expr{
+						Node: p.parseCall(t.Value),
+					}
+				} else {
+					p.unexpectedToken("LParen")
+					//unimplemented!();
+				}
 			}
 		case lexer.TokenType:
 			if t == lexer.RBrace {

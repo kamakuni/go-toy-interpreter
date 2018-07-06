@@ -1,2 +1,5 @@
-bool test = true;
+bool b = true;
+if(b){
+  number test = 10;
+}
 yaz(test);
