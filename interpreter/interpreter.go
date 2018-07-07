@@ -61,7 +61,7 @@ func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlo
 	var variable Symbol
 
 	// Get if condition
-	if n, ok := identifier.Node.(Variable); ok {
+	if n, ok := identifier.Node.(ast.Variable); ok {
 		variable = i.SymbolTable[n.Value]
 	}
 
