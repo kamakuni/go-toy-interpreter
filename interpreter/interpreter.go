@@ -50,7 +50,7 @@ func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
 }
 
 func (i *Interpreter) interpretCall(identifier string, params []ast.Expr) {
-	if identifier == "yaz" {
+	if identifier == "print" {
 		i.print(params)
 	} else if identifier == "oku" {
 		i.get(params)
