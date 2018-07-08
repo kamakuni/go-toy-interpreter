@@ -1,5 +1,3 @@
-bool b = true;
-if(b){
-  number test = 10;
-}
-yaz(test);
+//bool b = true;
+string s = "value";
+print(s);

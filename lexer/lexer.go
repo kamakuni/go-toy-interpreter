@@ -266,7 +266,7 @@ func (ts *TokenStream) Tokenize() {
 		} else if currentChar == '/' {
 			i++
 			if i < charCount && ts.nthChar(i) == '/' {
-				for i < charCount && ts.nthChar(i) == '\n' {
+				for i < charCount && ts.nthChar(i) != '\n' {
 					i++
 				}
 

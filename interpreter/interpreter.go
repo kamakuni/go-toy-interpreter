@@ -52,7 +52,7 @@ func (i *Interpreter) interpretAssign(identifier string, value ast.Expr) {
 func (i *Interpreter) interpretCall(identifier string, params []ast.Expr) {
 	if identifier == "print" {
 		i.print(params)
-	} else if identifier == "oku" {
+	} else if identifier == "input" {
 		i.get(params)
 	}
 }
