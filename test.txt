@@ -1,5 +1,6 @@
 bool b = true;
-//string s = "value";
-//number n = 1+10;
-print("test");
-print("test2");
+print("BEGIN");
+if(b){
+    print("IF BLOCK");
+}
+print("END");
