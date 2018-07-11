@@ -388,9 +388,7 @@ func (p *Parser) parseBool() interface{} {
 
 func (p *Parser) parseIf() interface{} {
 	var conditionIdentifier = ""
-	var ifBlock = ast.Expr{
-		Node: ast.Nil{},
-	}
+	var ifBlock ast.Expr
 	var elseBlock ast.Expr
 
 	// Eat identifier

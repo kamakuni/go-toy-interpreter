@@ -70,10 +70,18 @@ func (i *Interpreter) interpretIf(identifier ast.Expr, ifBlock ast.Expr, elseBlo
 	case ast.Bool:
 		// If bool value is true then execute if block.
 		if v.Value {
-			i.runBlock(ifBlock)
+			if b, ok := ifBlock.Node.(ast.Block); ok {
+				i.runBlock(b)
+			} else {
+				println("Unimplemented feature found!")
+			}
 			// If bool value is false and else block is exist, execute else block.
 		} else if elseBlock.Node != nil {
-			i.runBlock(elseBlock)
+			if b, ok := elseBlock.Node.(ast.Block); ok {
+				i.runBlock(b)
+			} else {
+				println("Unimplemented feature found!")
+			}
 		}
 	case ast.String:
 		panic("Uninitilized variable found!")
