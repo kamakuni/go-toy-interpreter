@@ -1,6 +1,8 @@
-bool b = true;
+bool b = false;
 print("BEGIN");
 if(b){
     print("IF BLOCK");
+} else {
+    print("ELSE BLOCK");
 }
 print("END");
